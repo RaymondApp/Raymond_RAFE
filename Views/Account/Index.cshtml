@@ -1,0 +1,288 @@
+﻿@model RAFE.Models.LoginModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="UTF-8">
+    <title>Prism</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <!-- Bootstrap 3.3.4 -->
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- Font Awesome Icons -->
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/css/bootstrapValidator.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link href="~/Content/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/css/blue.css" rel="stylesheet" />
+    <style>
+        ul {
+            padding-left: 20px;
+        }
+
+        .login-box-body {
+            border: 2px solid white;
+            border-radius: 5px;
+            background-color: transparent;
+        }
+
+        #userName {
+            background-color: transparent !important;
+            color: white !important;
+        }
+        #txtLoginID {
+            background-color: transparent !important;
+            color: white !important;
+        }
+         #password {
+            background-color: transparent !important;
+            color: white !important;
+        }
+
+        .has-error .form-control-feedback {
+            color: #1b1818 !important;
+        }
+
+        .form-group.has-error .form-control, .form-group.has-error .input-group-addon {
+            border-color: #1b1818 !important;
+        }
+
+        .has-error .input-group-addon {
+            color: #1b1818 !important;
+        }
+
+        p.login-box-msg {
+            font-size: xx-large;
+        }
+
+        a#hyp_forgotpass {
+            color: white !important;
+        }
+
+        a#hyp_login {
+            color: white !important;
+        }
+
+        .form-group.has-error .form-control, .form-group.has-error .input-group-addon {
+            border-color: #dd4b39;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body class="login-page">
+    <div class="loading">Loading&#8230;</div>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "loginform" }))
+    {
+        @Html.ValidationSummary(true);
+        @Html.AntiForgeryToken();
+        <div class="login-box" style="margin-top:20%">
+            <div class="login-logo">
+                <a href="#" style="color:white;"><h1>Prism</h1></a>
+            </div><!-- /.login-logo -->
+
+            <div class="login-box-body">
+                <p class="login-box-msg" style="color:white;font:400;"> Sign in</p>
+                <div class="form-group has-feedback">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                        @Html.TextBoxFor(model => model.userName, new { @class = "form-control", placeholder = "Login ID" , id="txtLoginID"})
+                        <span class="glyphicon form-control-feedback"></span>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-lock"></i>
+                        </div>
+                        @Html.TextBoxFor(model => model.password, new { @class = "form-control", placeholder = "Password", type = "password"})
+                        <span class="glyphicon form-control-feedback"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="checkbox icheck">
+                            <label>
+                                @Html.CheckBox("checkremember") Remember Me
+                            </label>
+                        </div>
+                    </div><!-- /.col -->
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat" id="btnSignIn">Sign In</button>
+                    </div><!-- /.col -->
+                </div>
+                <a href="JavaScript:void(0);" id="hyp_forgotpass">I forgot my password</a><br>
+            </div><!-- /.login-box-body --><br />
+        </div><!-- /.login-box -->
+    }
+
+    @using (Html.BeginForm("forgotpassword", "login", FormMethod.Post, new { id = "forgotPassform", @class = "hide" }))
+    {
+        @Html.ValidationSummary(true);
+        @Html.AntiForgeryToken();
+        <div class="login-box">
+            <div class="login-logo">
+                <a href="#"><b></b>PR PO</a>
+            </div><!-- /.login-logo -->
+            <div class="login-box-body">
+                <p class="login-box-msg">Forgot Password</p>
+                <div class="form-group has-feedback">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                        @Html.TextBoxFor(model => model.userName, new { @class = "form-control", placeholder = "Login ID", ld = "txtUserName" })
+                        <span class="glyphicon form-control-feedback"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                    </div><!-- /.col -->
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
+                    </div><!-- /.col -->
+                </div>
+                <a href="JavaScript:void(0);" id="hyp_login">click here to login</a><br>
+            </div><!-- /.login-box-body --><br />
+            <div>
+                @if (ViewData.ModelState["error"] != null && ViewData.ModelState["error"].Errors.Count > 0)
+                {
+                    <div class="bs-example">
+                        <div class="alert alert-danger alert-error">
+                            <a href="#" class="close" data-dismiss="alert">&times;</a>
+                            @Html.ValidationSummary(true)
+                            @Html.ValidationSummary("Errors:")
+                        </div>
+                    </div>
+                }
+            </div>
+        </div><!-- /.login-box -->
+        <input type="hidden" id="hdn_abs" value="@Url.Action("forgotpassword", "login")" />
+    }
+    @Scripts.Render("~/bundles/jquery")
+    <!-- Bootstrap 3.3.2 JS -->
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    <script src="~/Content/js/sweetalert.min.js"></script>
+    <script src="~/Content/js/bootstrapValidator.min.js"></script>
+    <!-- iCheck -->
+    <script src="~/Content/js/icheck.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ('@ViewBag.ErrorMsg' != '') {
+                swal({
+                    title: "Error",
+                    text: '@ViewBag.ErrorMsg',
+                });
+                $(".swal-title").css('background-color', '#f2dede').css('color', '#a94442');
+                $('.swal-button').css('background-color', '#d9534f');
+            }
+        });
+        $(function () {
+            $(".loading").hide();
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+            $("#btnSignIn").on('click', function (e) {
+                if ($("#txtLoginID").val() != '' && $("#txtPassword").val() != '') {
+                    $(".loading").show();
+                }
+            });
+            $('#hyp_forgotpass').on('click', function (e) {
+                $('#loginform').bootstrapValidator('resetForm', true);
+                $('#forgotPassform').bootstrapValidator('resetForm', true);
+                $("#loginform").hide();
+                $("#forgotPassform").removeClass("hide");
+                $("#forgotPassform").show();
+            });
+
+            $('#hyp_login').on('click', function (e) {
+                $('#loginform').bootstrapValidator('resetForm', true);
+                $('#forgotPassform').bootstrapValidator('resetForm', true);
+                $("#loginform").show();
+                $("#forgotPassform").hide();
+            });
+
+            $('#loginform').bootstrapValidator({
+                container: '#messages',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    userName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Login ID is required and cannot be empty'
+                            }
+                        }
+                    },
+                    password: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Password is required and cannot be empty'
+                            }
+                        }
+                    }
+                }
+            });
+
+            $('#forgotPassform').bootstrapValidator({
+                container: '#messages',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    userName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Login ID is required and cannot be empty'
+                            }
+                        }
+                    }
+                }
+            }).on('success.form.bv', function (e) {
+                e.preventDefault();
+                var URL = $('#hdn_abs').val();
+                $(".loading").show();
+                $("#chngPassModal").hide();
+                var form_data = $(this).serialize(); //Encode form elements for submission
+                $.ajax({
+                    url: URL,
+                    type: "POST",
+                    data: form_data,
+                    success: function (result) {
+                        if (result == true) {
+                            $("#forgotPassform").hide();
+                            swal("Successfully! We have sent new password to your Email-Id!", {
+                                icon: "success",
+                            });
+                            $(".loading").hide();
+                            $("#loginform").show();
+                        }
+                        else {
+                            $('#forgotPassform')[0].reset();
+                            $(".loading").hide();
+                            swal("Request fail! " + result, {
+                                icon: "error",
+                            });
+                        }
+                    },
+                    error: function (xhr) {
+                        $(".loading").hide();
+                    }
+                })
+            });
+        });
+    </script>
+</body>
+</html>
+

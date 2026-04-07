@@ -1,0 +1,63 @@
+﻿@model RAFE.Models.NominationModel
+
+<table class="table table-bordered table-responsive" id="tblAwards">
+    <thead>
+        <tr>
+            <th>Sr No</th>
+            <th>Nomination ID</th>
+            <th>Award Year</th>
+            <th>Award Category</th>
+            <th style="width: 80px !important;">Award Type</th>
+            <th>Function</th>
+            <th style="width: 120px !important;">Nominated By</th>
+            <th width="20%">Nominee</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Nominationlist.Count > 0)
+        {
+            foreach (var item in Model.Nominationlist)
+            {
+                <tr>
+                    <td>
+                        @item.SrNo
+                    </td>
+                    <td>@item.NominationID</td>
+                    <td>@item.AwardYear</td>
+                    <td>@item.AwardCategory</td>
+                    <td>@item.AwardType</td>
+                    <td>@item.FunctionName</td>
+                    <td>@item.Nominator</td>
+                    <td>@item.Nomenees</td>
+                    <td>
+                        @Html.Raw(RAFE.Utility.WebCommon.GetSubmitStatus(item.isSubmitted, item.CurrentStatus))
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" style='margin:5px;' href="@Url.Action("NominationForm", "home", new { id = @item.NominationID })">
+                            @if (item.isSubmitted)
+                            {<text> View </text>}
+                            else
+                            {<text> Edit </text>}
+                        </a>
+                        @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "BU HR" && item.isSubmitted == true)
+                        {
+                            <a class="btn btn-primary" style='margin:5px;' href="@Url.Action("NominationForm", "home", new { id = @item.NominationID,Flag="Edit" })">
+                                <text>Edit</text>
+                            </a>
+                        }
+                        @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "COMM HR" && item.StatusID == 4)
+                        {
+                            <button type='button' style='margin:5px;' class='btn btn-info revert' text='revert' data-id='@item.NominationID' title="Revert to draft save"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp; Revert</button>
+                            //Changes on 31
+                            <a class="btn btn-primary" style='margin:5px;' href="@Url.Action("NominationForm", "home", new { id = @item.NominationID,Flag="Edit" })">
+                                <text>Edit</text>
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

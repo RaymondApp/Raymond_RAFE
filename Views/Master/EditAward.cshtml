@@ -1,0 +1,103 @@
+﻿@model RAFE.Models.AwardMaster
+
+@{
+    ViewBag.Title = "Prism Aard";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        @Model.action
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("index", "home" )"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("GetAllAwards", "master" )"><i class="fa fa-dashboard"></i> Awards</a></li>
+        <li class="active">Edit Award</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-body">
+                    <div class="form-group" style="margin-bottom: 0px; padding-bottom: 0px; float: right;">
+                        @Html.ActionLink("Back", "allawards", "master", null, new { @class = "btn btn-danger", title = "back to all awards" })
+                    </div>
+                </div>
+                @using (Html.BeginForm("EditAward", "Masters", FormMethod.Post, new { id = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.AwardID)
+                    @Html.HiddenFor(m => m.action)
+                    <div class="box-body">
+                        <div class="row form-group">
+                            <label for="SAP_MaterialCode" class="col-sm-3 control-label">Year<span style="color:red">&nbsp;*</span></label>
+                            <div class="col-sm-6">
+                                @Html.DropDownListFor(m => Model.AwardYear, new SelectList(RAFE.Utility.WebCommon.GetYears()), new { @class = "form-control", required = "required" })
+                                @*@Html.TextBoxFor(m => m.AwardYear, new { @class = "form-control" })*@
+                                @Html.ValidationMessageFor(m => m.AwardYear, "", new { style = "display:block;color:red;" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="MaterialDesc" class="col-sm-3 control-label">Quarter<span style="color:red"> *</span></label>
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(m => m.AwardQuarter, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.AwardQuarter, "", new { style = "display:block;color:red;" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="WhiteDyed" class="col-sm-3 control-label">Nomination Last Date<span style="color:red"> *</span></label>
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(m => m.NominationLastDate, new { @class = "form-control datepicker" })
+                                @Html.ValidationMessageFor(m => m.NominationLastDate, "", new { style = "display:block;color:red;" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="WhiteDyed" class="col-sm-3 control-label">Approval Last Date<span style="color:red"> *</span></label>
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(m => m.ApprovalLastDate, new { @class = "form-control datepicker" })
+                                @Html.ValidationMessageFor(m => m.ApprovalLastDate)
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <label for="lblStatus" class="col-sm-3 control-label">Active</label>
+                            <div class="col-sm-6">
+                                <input type="checkbox" value="1" name="isActive" @if (Model.isActive == 1) { <text> checked </text> } />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" id="btnSave" class="btn btn-primary">Save</button>
+                        <button type="reset" id="btnClear" class="btn btn-default">Clear</button>
+                        <a href="@Url.Action("allawards","master")" class="btn btn-danger">Back</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+@section scriptsRef
+{
+    <link href="~/Content/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Content/js/bootstrap-datepicker.js"></script>
+}
+
+
+@section scripts{
+    <script>
+        $(function () {
+            date = new Date();
+            date.setDate(date.getDate());
+            $('.datepicker').datepicker({
+                orientation: 'bottom',
+                format:'dd-mm-yyyy',
+                //startDate: date
+            }).on('changeDate', function (e) {
+                $(this).datepicker('hide');
+            }).end()
+        });
+    </script>
+}

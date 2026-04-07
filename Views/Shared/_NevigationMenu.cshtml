@@ -1,0 +1,113 @@
+﻿
+@model RAFE.Models.MenuModel
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <ul id="sidebar" class="sidebar-menu" data-widget="tree">
+
+            @if (Model.MenuList.Count > 0)
+            {
+                foreach (var PMenu in Model.MenuList)
+                {
+                    if (PMenu.ChildList.Count > 0)
+                    {
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-edit"></i>
+                                <span>@PMenu.vMenuName</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                @foreach (var MChild in PMenu.ChildList)
+                                {
+                                    <li><a menuid="@MChild.intMenuID" class="nav" @if (!string.IsNullOrEmpty(MChild.vActionName) && !string.IsNullOrEmpty(MChild.vControllerName)) { <text> href="@Url.Action(MChild.vActionName.Trim(), MChild.vControllerName.Trim())?@Html.Raw(MChild.URLParam)" </text> }><i class="fa fa-circle-o"></i>@MChild.vMenuName</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a @if (!string.IsNullOrEmpty(PMenu.vActionName) && !string.IsNullOrEmpty(PMenu.vControllerName)) { <text> href="@Url.Action(PMenu.vActionName.Trim(), PMenu.vControllerName.Trim())" </text> }>
+                              @if (PMenu.intMenuID == 9)
+                              {
+                                  <i class="fa fa-trophy"></i>
+                              }
+                              else
+                              {
+                                  <i class="fa fa-edit"></i>
+                              }
+                                
+                                <span>@PMenu.vMenuName</span>
+                            </a>
+                        </li>
+                    }
+                }
+            }
+            else
+            {
+                <li>
+                    <input type="hidden" name="nomenu" id="hdnnomenu" value="1" />
+                </li>
+            }
+
+            @if (RAFE.Utility.WebCommon.isUserCXO(Request.Cookies["UserInfo"].Value))
+            {
+                <li>
+                    <a href="@Url.Action("CXOPanel", "Home",new { iscxo = true })">
+                        <i class="fa fa-edit"></i>
+                        <span>CXO Panel</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>
+
+
+@*<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <ul id="sidebar" class="sidebar-menu" data-widget="tree">
+            <li>
+                <a  href="@Url.Action("index", "home")">
+                    <i class="fa fa-edit"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("about", "home")">
+                    <i class="fa fa-edit"></i>
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>*@
+
+
+
+
+
+@*<div id="navbar2" class="navbar-collapse collapse">
+    <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+        <li class="dropdown">
+            @{
+                var user = HttpContext.Current.User.Identity.Name.Split('~');
+            }
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@user[1] <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#" data-toggle="modal" data-target="#chngPassModal"><i class="fa fa-angle-left"></i> Change Password</a></li>
+                <li class="divider"></li>
+                <li><a href="#" id="hyp_logoff"><i class="fa fa-angle-left"></i> Sign out</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>*@

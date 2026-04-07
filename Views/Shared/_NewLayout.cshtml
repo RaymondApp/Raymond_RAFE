@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RAFE</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryAjaxUnobtrusive")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scriptsRef", required: false)
+    @Scripts.Render("~/bundles/BasicJS")
+    <script type="text/javascript">
+        $(function () {
+            $(document).ajaxError(function (e, xhr, settings) {
+                if (xhr.status == 401) {
+                    location = '@Url.Action( "index", "account" )';
+                }
+                else
+                    if (xhr.status == 500) {
+                        alert("Insernal server error occured. Contact administrator for support");
+                    }
+            });
+        });
+
+        function logOff() {
+            $.ajax({
+                url: "@Url.Action("Logoff", "Login")",
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                }
+            })
+        }
+        function popitup(url, windowName) {
+            newwindow = window.open(url, windowName, 'height=600,width=600');
+            if (window.focus) { newwindow.focus() }
+            return false;
+        }
+        $(document).ready(function () {
+            /*Start - Added for datatable case insensitive client side search*/
+            $.expr[":"].ContainsNC = $.expr.createPseudo(function (arg) {
+                return function (elem) {
+                    return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+                };
+            })
+
+            $('#hyp_logoff').on('click', function (e) {
+                $('.loading').show();
+                e.preventDefault();
+                $("#logoff_form").submit();
+            });
+            /*End - Added for datatable case insensitive client side search*/
+        });
+
+        function HighlightMenu(MenuId) {
+            $('#sidebar li').removeClass('active');
+            $('#sidebar li').parent().parent().removeClass('active menu-open');
+            // Loop all menu items
+            $('#sidebar li').each(function () {
+                var liMenuId = $(this).find('a').attr('menuid');
+                if (liMenuId != undefined) {
+                    if (liMenuId == MenuId) {
+                        // Add active class
+                        $(this).parent().parent().removeClass('menu').addClass('active menu-open');
+                        $(this).addClass('active');
+                        $(this).find('i').toggleClass('fa-circle-o fa-dot-circle-o');
+                        //$('body').addClass("sidebar-collapse");
+                        return false;
+                    }
+                }
+            });
+        }
+
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+    </script>
+</head>
+<body class="hold-transition skin-blue layout-top-nav">
+    <div class="wrapper">
+        <div class="loading">Loading&#8230;</div>
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()" class="logo" style="display:none">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini" style="font-size: 12px !important;"><b>RAFE</b></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg">
+                    <img src="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()content\img\RAFE Final Black Logo Hires.png" width="230">
+                </span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" style="background-color:#231F20">
+                <div class="col-md-2 pull-left">
+                    <a href="javascript:void(0)" style="padding:0!important"><img width="100" src="~/Content/img/RAFE Final Black Logo Hires.png" /></a>
+                </div>
+                <div class="col-md-8">
+                    <div class="container">
+                        @*<div class="navbar-header">
+                <a href="#" class="navbar-brand"><b>RAFE</b></a>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>*@
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="navbar-collapse pull-right" id="navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "BU COMMITTEE" || RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "COMM HR" || RAFE.Utility.WebCommon.GetUserCommittee(Request.Cookies["UserInfo"]).ToUpper() == "AWARD COMMITTEE" || RAFE.Utility.WebCommon.GetUserCommittee(Request.Cookies["UserInfo"]).ToUpper() == "JURY COMMITTEE" || RAFE.Utility.WebCommon.GetUserCommittee(Request.Cookies["UserInfo"]).ToUpper() == "COMMITTEE" || RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "BU HR")
+                                {
+                                    <li class="dropdown" aria-labelledby="dLabel" role="menu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:white;top:15px;"><b>Committee</b><span class="caret"></span></a>
+                                        <ul class="dropdown-menu text-black" role="menu">
+                                            @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "COMM HR" || RAFE.Utility.WebCommon.GetUserCommittee(Request.Cookies["UserInfo"]).ToUpper() == "AWARD COMMITTEE" || RAFE.Utility.WebCommon.GetUserCommittee(Request.Cookies["UserInfo"]).ToUpper() == "COMMITTEE")
+                                            {
+                                                <li>@Html.ActionLink("Award Committee", "AwardCommittee", "Home")</li>
+                                            }
+                                            @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "COMM HR" || RAFE.Utility.WebCommon.GetUserCommittee(Request.Cookies["UserInfo"]).ToUpper() == "JURY COMMITTEE" || RAFE.Utility.WebCommon.GetUserCommittee(Request.Cookies["UserInfo"]).ToUpper() == "COMMITTEE")
+                                            {
+                                                <li>@Html.ActionLink("Jury Committee", "JuryCommittee", "Home")</li>
+                                            }
+                                            @if (RAFE.Utility.WebCommon.GetUserCommittee(Request.Cookies["UserInfo"]).ToUpper() == "JURY COMMITTEE" || RAFE.Utility.WebCommon.GetUserCommittee(Request.Cookies["UserInfo"]).ToUpper() == "AWARD COMMITTEE" || RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "COMM HR")
+                                            {
+                                                <li>@Html.ActionLink("View Feedback", "SeeFeedback", "Home")</li>
+                                            }
+                                            @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "COMM HR")
+                                            {
+                                                <li>@Html.ActionLink("Dashboard", "NominationStatus", "Dashboard")</li>
+                                            }
+                                            @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "BU HR")
+                                            {
+                                                <li>@Html.ActionLink("Dashboard", "BU_Dashboard", "Dashboard")</li>
+                                            }
+                                            @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "COMM HR")
+                                            {
+                                                <li>@Html.ActionLink("Admin Control", "AdminPage", "Home")</li>
+                                            }
+                                            @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "BU COMMITTEE" || RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "COMM HR" || RAFE.Utility.WebCommon.GetProfileName(Request.Cookies["UserInfo"]).ToUpper() == "ANSHU DUBEY" || RAFE.Utility.WebCommon.GetProfileName(Request.Cookies["UserInfo"]).ToUpper() == "ANN PRADHAN" )
+                                            {
+                                                <li>@Html.ActionLink("BU Committee", "BUCommittee", "Home")</li>
+                                            }
+                                        </ul>
+                                    </li>
+                                 }
+                                <li><a href="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/Home/NominationForm" style="color: white;top:15px;"><b>Nomination Form</b></a></li>
+                                @*@if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() != "BU COMMITTEE" )*@
+                                {
+                                    <li><a href="@Url.Action("AllNomination", "Home")" style="color: white;top:15px;"><b>All Nominations</b></a></li>
+                                }
+                                @*<li><a href="javascript:void(0)" style="color: #000000;">Jury Panel</a></li>*@
+                                <!--<li><a href="@Url.Action("Dejavu","Home")" style="color: #000000;">Deja vu</a></li>-->
+                                <li class="dropdown" aria-labelledby="dLabel" role="menu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:white;top:15px;"><b>Help</b><span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="javascript:void(0)" onclick="popitup('@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/ProcessNote/User Guide_RAFE_2023.pdf','Guidelines')">User Guide</a></li>
+                                        <li><a href="javascript:void(0)" onclick="popitup('@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/ProcessNote/FAQ_RAFE_2023.pdf','FAQs')">FAQs</a></li>
+                                        <li><a href="javascript:void(0)" onclick="popitup('@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/ProcessNote/Process Note__RAFE 2023.pdf','FAQs')">Process Note</a></li>
+                                        <li><a href="mailto:awards@raymond.in">For Support - awards@raymond.in</a></li>
+                                        @*<li class="dropdown-submenu">
+                    <a tabindex="-1" href="#">Support Email ID <span class="caret"></span></a>
+                    <ul class="dropdown-menu"></ul>
+                </li>*@
+                                    </ul>
+                                </li>
+                                @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "BU HR" || RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo_Old"]).ToUpper() == "BU HR")
+                                {
+                                    <li><a href="#" data-toggle="modal" data-target="#chngPassModal" style="color:white;top:15px;"><b>Change User</b></a></li>
+                                }
+                                @if (RAFE.Utility.WebCommon.GetUserCommittee(Request.Cookies["UserInfo"]).ToUpper() != "JURY COMMITTEE")
+                                {
+                                    if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() != "BU COMMITTEE")
+                                    {
+                                        <li>@Html.ActionLink("Give Feedback", "GiveFeedBack", "Home", new { @style = "color:white;font-weight:bold;top:15px;" })</li>}
+                                }
+                            </ul>
+                        </div>
+                        <!-- Sidebar toggle button-->
+                        <div class="navbar-custom-menu collapse">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown user user-menu" style="display:none">
+                                    @{
+                                        string Uname = RAFE.Utility.WebCommon.GetProfileName(Request.Cookies["UserInfo"]);
+                                    }
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" role="button">
+                                        <img style="height:18px;" src="~/Content/img/Profile-icon.png" />
+
+                                        <span class="hidden-xs p_name">@Uname</span>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#" data-toggle="modal" data-target="#chngPassModal"><i class="fa fa-angle-left"></i><b>Change User</b></a></li>
+                                    </ul>
+                                </li>
+                                @*<li>
+                        @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "MANAGER")
+                        {
+                            <a href="#" title="Help?" style="cursor: help;padding:10px 0 0 0" id="hyp_manual" onclick="popitup('@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()ProcessNote/USER MANUAL FOR REPORTING MANAGERS.pdf','User Manual')"><img src="~/Content/img/help_11.png" /> </a>
+                        }
+                        else if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "HOD")
+                        {
+                            <a href="#" title="Help?" style="cursor: help;padding:10px 0 0 0" id="hyp_manual" onclick="popitup('@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()ProcessNote/USER MANUAL FOR HODs.pdf','User Manual')"><img src="~/Content/img/help_11.png" /> </a>
+                        }
+                    </li>*@
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Sidebar Menu -->
+        @*@{Html.RenderAction("GetNevigationMenu", "common");}*@
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper content-wrapper-with-bg">
+            @{Html.RenderAction("GetLoggedinUserDetails", "common");}
+            @RenderBody()
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2023-2024 </strong> All rights reserved.
+        </footer>
+        @Html.Partial("_ChangePassword")
+        <div class='control-sidebar-bg'></div>
+        <form action="@Url.Action("logoff","Account")" id="logoff_form" method="post">
+            @Html.AntiForgeryToken()
+        </form>
+
+    </div><!-- ./wrapper -->
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>
+<style>
+    .dropdown-menu > li > a {
+        color: black;
+    }
+</style>

@@ -1,0 +1,231 @@
+﻿@model IEnumerable<RAFE.Models.AwardAdminModel>
+@{
+    ViewBag.Title = "AdminPage";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<style>
+    .form_text {
+        color: white;
+    }
+
+    .acmap {
+        float: right;
+        margin-right: 5px;
+        font-weight: bold;
+        background-color: #d8b751;
+        border-color: #d8b751;
+        color: white;
+    }
+</style>
+<h2 class="form_text" style="margin-left:10px">Award Table</h2>
+<a class="btn acmap" href="@Url.Action("PreviousYearWinners", "Home")">Previous Years Winner</a>
+@*<a class="btn acmap" href="@Url.Action("ACMapping", "Home")">Award Committee Mapping</a>*@
+<div class="container-fluid" style="background-color:white">
+    <table class="table">
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.AwardTypeID)*@
+                Award Type ID
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.AwardName)*@
+                Award Name
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.AwardCategory)*@
+                Award Category
+            </th>
+            <th class="text-center">
+                Finance Head Approval
+            </th>
+            <th class="text-center">
+                Status
+            </th>
+            <th class="text-center">
+                Action
+            </th>
+        </tr>
+        @*<th>
+                @Html.DisplayNameFor(model => model.isActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.financeHeadApproval)
+            </th>*@
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AwardTypeID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AwardName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AwardCategory)
+                </td>
+                <td class="text-center">
+                    @if (item.financeHeadApproval == 1)
+                    {
+                        <button class="btn" id="fin_@item.AwardTypeID" onclick="financeApproval(@item.AwardTypeID,'YES')">YES</button>
+                        <input id="mon_@item.AwardTypeID" type="hidden" value="YES" />
+                    }
+                    else
+                    {
+                        <button class="btn" id="fin_@item.AwardTypeID" onclick="financeApproval(@item.AwardTypeID,'NO')">NO</button>
+                        <input id="mon_@item.AwardTypeID" type="hidden" value="NO" />
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.isActive == true)
+                    {
+                        <button class="btn" id="btn_@item.AwardTypeID" onclick="changeStatus(@item.AwardTypeID,'Active')">Active</button>
+                        <input id="txt_@item.AwardTypeID" type="hidden" value="Active" />
+                    }
+                    else
+                    {
+                        <button class="btn" id="btn_@item.AwardTypeID" onclick="changeStatus(@item.AwardTypeID,'Deactive')">Deactive</button>
+                        <input id="txt_@item.AwardTypeID" type="hidden" value="Deactive" />
+                    }
+                </td>
+                <td class="text-center">
+                    <button type="button" class="fa fa-edit" onclick='window.location = "@Url.Action("AddEdit", "Home", item)";'></button>
+                    &nbsp;&nbsp;
+                    @if (item.isDeleted == 0)
+                    {
+                        <button class="fa fa-trash" id="@item.AwardTypeID" onclick="confirmDelete(@item.AwardTypeID)"></button>
+                    }
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => item.isActive)
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => item.isDeleted)
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => item.financeHeadApproval)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>
+<div id="partialModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-center modal-title">Confirm Delete</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are You Sure You Want to Delete the award type?
+            </div>
+            <div class="modal-footer">
+                <button id="awardDelete" type="button" class="btn btn-secondary" data-dismiss="modal">YES</button>
+                <button onclick="skip_delete" type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var deleteID;
+
+    function changeStatus(ID) {
+
+        var counter = 0;
+        if ($('#txt_' + ID).val() == "Deactive") {
+            counter = 1;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ChangeStatus", "Home")',
+            contentType: "application/json; charset=utf-8",
+            data: '{"id":"' + ID + '","Counter":"' + counter + '"}',
+               // { id: ID, Counter: counter },
+            success: function (response) {
+                if (response == "1") {
+                    if ($('#txt_' + ID).val() == "Active") {
+                        $('#txt_' + ID).val("Deactive");
+                        $('#btn_' + ID).val("Deactive");
+                        $('#btn_' + ID).text("Deactive");
+                    }
+                    else {
+                        $('#txt_' + ID).val("Active");
+                        $('#btn_' + ID).val("Active");
+                        $('#btn_' + ID).text("Active");
+                    }
+                    alert("Record Updated Successfully");
+                }
+                else {
+                    alert("Record Not Updated");
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
+            }
+        });
+
+    };
+
+    function financeApproval(ID) {
+
+        var counter = 0;
+        if ($('#mon_' + ID).val() == "NO") {
+            counter = 1;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("FinanceApproval", "Home")',
+            contentType: "application/json; charset=utf-8",
+            data: '{"id":"' + ID + '","Counter":"' + counter + '"}',
+               // { id: ID, Counter: counter },
+            success: function (response) {
+                if (response == "1") {
+                    if ($('#mon_' + ID).val() == "YES") {
+                        $('#mon_' + ID).val("NO");
+                        $('#fin_' + ID).val("NO");
+                        $('#fin_' + ID).text("NO");
+                    }
+                    else {
+                        $('#mon_' + ID).val('YES');
+                        $('#fin_' + ID).val("YES");
+                        $('#fin_' + ID).text("YES");
+                    }
+                    alert("Record Updated Successfully");
+                }
+                else {
+                    alert("Record Not Updated");
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
+            }
+        });
+
+    };
+
+    function confirmDelete(ID) {
+        deleteID = ID;
+        //alert(ID);
+        $('#partialModal').modal('show');
+    }
+
+    $(function () {
+        $("#awardDelete").click(function () {
+            var url = "DeleteRow?id=" + deleteID;
+            window.location.href = url;
+        });
+    });
+
+
+
+
+</script>

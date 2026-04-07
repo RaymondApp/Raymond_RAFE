@@ -1,0 +1,41 @@
+﻿@model RAFE.Models.NominationModel
+
+<button type="button" class="btn btn-info btn-toggl" data-toggle="collapse" data-target="#demo_@Model.employeenm">Award History</button>
+<div id="demo_@Model.employeenm" class="in" style="background-color:white; margin:10px 0 5px 0">
+    <div class="table-responsive">
+        <table class="table no-margin">
+            <thead>
+                <tr>
+                    <th>Sr No</th>
+                    <th>Year</th>
+                    <th>Quarter</th>
+                    <th>Category</th>
+                    <th>Type</th>
+                    <th>Rationale</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Nominationlist.Count > 0)
+                {
+                    foreach (var item in Model.Nominationlist)
+                    {
+                        <tr>
+                            <td>@item.SrNo</td>
+                            <td>@item.AwardYear</td>
+                            <td>@item.AwardQuarter</td>
+                            <td>@item.AwardCategory</td>
+                            <td>@item.AwardType</td>
+                            <td>@item.Rationale</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No history available</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,196 @@
+﻿@model RAFE.Models.NominationModel
+
+<style>
+    .comments, .ratings, .shortlist {
+        background-color: #9A792C;
+        border-color: #9A792C;
+        color:white;
+    }
+</style>
+
+<table class="table table-bordered table-responsive" id="tblAwards">
+    <thead>
+        <tr>
+            <th>Sr No</th>
+            <th>Nomination ID</th>
+            <th>Award Year</th>
+            <th>Award Category</th>
+            <th style="width: 80px !important;">Award Type</th>
+            <th>Function</th>
+            <th style="width: 120px !important;">Nominated By</th>
+            <th>Nominee</th>
+            <th>Status</th>
+            <th>Committee Comments</th>
+            <th>Final Ratings</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Nominationlist.Count > 0)
+        {
+            foreach (var item in Model.Nominationlist)
+            {
+                <tr>
+                    <td>
+                        @item.SrNo
+                    </td>
+                    <td>
+                        <a style='margin:5px;' href="@Url.Action("NominationForm", "home", new { id = @item.NominationID })">
+                            <text>
+                                @item.NominationID
+                            </text>
+                        </a>
+                    </td>
+                    <td>@item.AwardYear</td>
+                    <td>@item.AwardCategory</td>
+                    <td>@item.AwardType</td>
+                    <td>@item.FunctionName</td>
+                    <td>@item.Nominator</td>
+                    <td>@item.Nomenees</td>
+                    <td>
+                        @Html.Raw(RAFE.Utility.WebCommon.GetSubmitStatus(item.isSubmitted, item.CurrentStatus))
+                    </td>
+                    <td>
+                        <input style='margin:5px;' type="button" class="comments btn" value="Comments" data-id="@item.NominationID" />
+                    </td>
+                    <td>
+                        <input style='margin:5px;' type="button" class="ratings btn" value="Ratings" data-id="@item.NominationID" />
+                    </td>
+                    <td>
+                        <input style='margin:5px;' type="button" class="shortlist btn" value=". . ." data-id="@item.NominationID" />
+                        <button style='margin:5px;padding:6px 10px;' type="button" class="abde btn" title="ask for feedback" id="btnAsk" data-id="@item.NominationID" data-type="@item.AwardType" data-nom="@item.Nomenees">Ask</button>
+                    </td>
+                </tr>
+            }
+         }
+    </tbody>
+</table>
+<div id="partialModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-center modal-title" id="nomDtl">Nomination Detail</h3>
+                <h3 class="text-center modal-title" id="askFdb">Send a mail for feedback</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close_btn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="partialModal1" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-center modal-title">Comments</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close_btn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="partialModal2" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-center modal-title">Ratings</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close_btn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.shortlist').click(function () {
+        $("#nomDtl").show();
+        $("#askFdb").hide();
+        //alert($(this).data('id'));
+                $.ajax({
+                    url: "@Url.Action("Details","Home")",
+                    type: "Post",
+                    data: { nominationId: $(this).data('id') },
+                    success: function (response) {
+                         $("#partialModal").find(".modal-body").html(response);
+                         $("#partialModal").modal('show');
+
+                    },
+                    error: function () {
+
+                    }
+                });
+
+    });
+    $('.comments').click(function () {
+        //alert($(this).data('id'));
+                $.ajax({
+                    url: "@Url.Action("Comments", "Home")",
+                    type: "Post",
+                    data: { nominationId: $(this).data('id') },
+                    success: function (response) {
+                         $("#partialModal1").find(".modal-body").html(response);
+                         $("#partialModal1").modal('show');
+
+                    },
+                    error: function () {
+
+                    }
+                });
+
+    });
+    $('.ratings').click(function () {
+        //alert($(this).data('id'));
+                $.ajax({
+                    url: "@Url.Action("ACRatings", "Home")",
+                    type: "Post",
+                    data: { nominationId: $(this).data('id') },
+                    success: function (response) {
+                         $("#partialModal2").find(".modal-body").html(response);
+                         $("#partialModal2").modal('show');
+
+                    },
+                    error: function () {
+
+                    }
+                });
+
+    });
+    $('.close_btn').click(function () {
+        window.location.reload();
+    });
+    //Saurabh Kumar Date- 19/05/2023
+    $('.abde').click(function () {
+        $("#nomDtl").hide();
+        $("#askFdb").show();
+        //alert($(this).data('id'));
+        $.ajax({
+            url: "@Url.Action("JuryFeedback","Home")",
+            type: "Post",
+            data: { nominationId: $(this).data('id'), awardTyp: $(this).data('type'), nominee: $(this).data('nom') },
+            success: function (response) {
+                $("#partialModal").find(".modal-body").html(response);
+                $("#partialModal").modal('show');
+                //$("#partialModal").show();
+
+            },
+            error: function (xrh) {
+            }
+        });
+    });
+</script>

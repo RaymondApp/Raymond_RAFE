@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<!-- Main content -->
+<section class="content" style="height:100%">
+    <div class="dashboard-screen">
+        @*<img src="~/Content/img/RAE Award Home Page Option.jpg" />
+            <img src="~/Content/img/RAE Award Home Page.jpg" />*@
+        <center>  <img src="~/Content/img/RAE Award Home Page.jpg" class="img-responsive" /></center>
+        @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() != "EMPLOYEE" && RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToLower() != "consultant")
+        {
+            <center> <a href="@Url.Action("NominationForm","home")" class="centered btn btn-danger">Click here to go to Nomination form</a></center>
+        }
+    </div>
+</section>
+<style>
+    .content-wrapper {
+        background-color: black !important;
+    }
+</style>

@@ -1,0 +1,56 @@
+﻿@model RAFE.Models.UserModel
+
+<link href="~/Content/css/profiler.css" rel="stylesheet" />
+
+@*@if (Model. == null)
+{
+    <p>Please Select Employee First</p>
+}
+else
+{*@
+    <div class="container">
+        <table style="color:black">
+            @*<tr>
+                 <td colspan="2"><img src="~/Upload/Image/@Model.Photo" style="float:right" alt="Image not Found" width="60" height="60"/></td>
+            </tr>*@
+            <tr>
+                <td style="font-weight:bold">Name</td>
+                <td>@Model.Name</td>
+                <td rowspan="4"><img src="~/Upload/Image/@Model.Photo" style="float:right" alt="Image not Found" width="100" height="100" /></td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold"><b>Emp ID</b></td>
+                <td>@Model.employeeID</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">Designation</td>
+                <td>@Model.Designation_Title</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">Email ID</td>
+                <td>@Model.EmailAddress</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">HOD</td>
+                <td>@Model.HOD</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">Group</td>
+                <td>@Model.Group_Name</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">Sub Group</td>
+                <td>@Model.Sub_Group</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">Function</td>
+                <td>@Model.Function</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">Location</td>
+                <td>@Model.Location</td>
+            </tr>
+        </table>
+    </div>
+@*}*@
+

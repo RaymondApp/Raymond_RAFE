@@ -1,0 +1,87 @@
+﻿@model RAFE.Models.GiveFeedBack
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<style>
+    .formfield {
+        display: flex;
+        align-items: center;
+    }
+
+    button#btnSave, button#Approved, button#btnAddEmp, button#btnApproved, button#btnReject {
+        background-color: #d8b751;
+        border-color: #d8b751;
+    }
+
+    button#btnSubmitt, button#btnRemoveEmp, button#btnNMI {
+        background-color: #9A792C;
+        border-color: #9A792C;
+    }
+
+    .voice {
+        height: auto;
+    }
+</style>
+<body>
+    <div class="container-fluid">
+        <div class="formfield" id="input-single">
+            <label id="askFeedback">Feedback :</label>
+            @Html.TextAreaFor(m => m.GiveFeedback, new { @id = "question", @placeholder = "Create a new note by typing or using voice command", @rows = "5", @cols = "60" })
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@*<button id="start-record-btn" type="button" class="voice" title="Start Recording">Start Voice Command</button>
+        <button id="pause-record-btn" type="button" class="voice" title="Pause Recording">Stop Voice Command</button>
+        <p id="recording-instructions">Press the <strong>Start Recognition</strong> button and allow access.</p>*@
+        <br />
+        <br />
+        @*<input type="hidden" name="NominationId" value="@Model.NominationId" />*@
+        @*<button type="button" title="Shortlisted" id="Approved" class="btn btn-success approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.Shortlisted)">Shortlisted</button>
+            <button type="button" title="Need More Information" id="btnNMI" class="btn btn-info approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.NeedMoreInfo)">Need More Information</button>*@
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" title="Send Feedback" id="btnSendFeedback" name="Send" value="Send" class="btn btn-success approval-selection" data-id="">Send</button>
+        <br />
+        <div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    $('.loading').hide();
+    //$('#btnSendMail').click(function () {
+    $('#btnSendFeedback').click(function (event) {
+        var txtVal = $("#question").val();
+        var id = $(this).data('id');
+        swal($("#question").val());
+        if ($('#question').val() == "") {
+            swal('!Please Give Any Feedback');
+        } else {
+            $.ajax({
+                url: "@Url.Action("SaveFeedback", "Home")",
+                type: "Post",
+                data: { GiveFeedback: $("#question").val() },
+                success: function (response) {
+                   alert('Data Save Sucessfully');
+                    //swal('Data Save Sucessfully');
+                    window.location.href = "http://localhost:65337/home/GiveFeedBack";
+                    //$("#partialModal").find(".modal-body").html(response);
+                    //$("#partialModal").modal('show');
+                    //$("#partialModal").show();
+
+                },
+                error: function (xrh) {
+                }
+            });
+        }
+        //swal('Data Save Sucessfully');
+    });
+</script>
+</html>
+
+

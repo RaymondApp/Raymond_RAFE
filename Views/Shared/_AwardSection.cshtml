@@ -1,0 +1,97 @@
+﻿@model RAFE.Models.AwardModel
+
+@if (Model.additionalSection.AdditionalsList.Count > 0)
+{
+
+    <div class="row">
+        <div class="col-lg-10 col-md-10 col-sm-12">
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-lg-10 col-md-10 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 raf-background">
+                            <p>
+                                <label style="color:white">
+                                    @Model.additionalSection.TitleText<span style="color:red">*</span>
+                                </label>
+                            </p>
+                        </div>
+                        @*<h3><label id="lblQ1"><span class="label label-primary raf-background">@Model.additionalSection.TitleText</span></label></h3>*@
+                        @Model.additionalSection.DescriptionText
+                        @if (Model.additionalSection.isTabularForm)
+                        {
+                            <table class="table-bordered" style="width:100%;">
+                                @for (int i = 0; i < Model.additionalSection.AdditionalsList.Count; i++)
+                                {
+                                    <tr>
+                                        <td style="width:35%;color:white;" ><b><span style="text-decoration:solid;font-size:medium;color:white;"> @Model.additionalSection.AdditionalsList[i].TitleText</span></b> <br />@Model.additionalSection.AdditionalsList[i].DescriptionText</td>
+                                        <td style="color:white;">
+                                            @Html.TextBoxFor(m => Model.additionalSection.AdditionalsList[i].UserInput, new { @class = "form-control UserInput", maxlength = Model.additionalSection.AdditionalsList[i].CharacterLength, onkeyup = "textCounter(this,spn_add_" + Model.additionalSection.AdditionalsList[i].AdditionalQuestionID + "," + Model.additionalSection.AdditionalsList[i].CharacterLength + ")", @required = "required", oninvalid = "this.setCustomValidity('Please fill the detail.')" })
+                                            <span style="color:white;" id="spn_add_@Model.additionalSection.AdditionalsList[i].AdditionalQuestionID"> (Max @Model.additionalSection.AdditionalsList[i].CharacterLength char ) </span>
+                                            @Html.HiddenFor(m => Model.additionalSection.AdditionalsList[i].AdditionalQuestionID)
+                                            @Html.ValidationMessageFor(m => Model.additionalSection.AdditionalsList[i].UserInput, "", new { @class = "text-danger" })
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="row">
+    @*<div class="col-lg-1 col-md-1">
+        </div>*@
+    <div class="col-lg-10 col-md-10 col-sm-12">
+        @if (Model.SectionList.Count > 0)
+        {
+            for (int i = 0; i < Model.SectionList.Count; i++)
+            {
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-10 col-md-10 col-sm-12 custom-border">
+                            <div class="col-lg-12 col-md-12 col-sm-12 raf-background" style="margin-top:10px;">
+                                <p>
+                                    <label class="raf-background-label text-black">
+                                        @Model.SectionList[i].SectionText <span style="color:red">*</span>
+                                    </label>
+                                </p>
+                            </div>
+                            @*<h3><label id="lblQ1"><span class="label label-primary raf-background">@Model.SectionList[i].SectionText</span></label></h3>*@
+                            @*@Model.SectionList[i].DescriptionText*@
+                            @Html.TextAreaFor(m => Model.SectionList[i].SectionInput, new { @class = "form-control SectionInput", rows = "13", maxlength = Model.SectionList[i].CharacterLength, onkeyup = "textCounter(this,spn_" + Model.SectionList[i].SectionID + "," + Model.SectionList[i].CharacterLength + ")", @required = "required", oninvalid = "this.setCustomValidity('Please fill the detail.')" })
+                            <span id="spn_@Model.SectionList[i].SectionID"> (Max @Model.SectionList[i].CharacterLength char ) </span>
+                            @Html.HiddenFor(m => Model.SectionList[i].SectionID)
+                            @Html.ValidationMessageFor(m => Model.SectionList[i].SectionInput, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="col-lg-1 col-md-1">
+
+    </div>
+</div>
+<style>
+    table.table-bordered {
+        border: 1px solid black;
+        margin-top: 20px;
+    }
+
+        table.table-bordered > thead > tr > th {
+            border: 1px solid black;
+        }
+
+        table.table-bordered > tbody > tr > td {
+            border: 1px solid black;
+        }
+    /*.custom-border {
+        border: black;
+        border-style: groove;
+    }*/
+</style>

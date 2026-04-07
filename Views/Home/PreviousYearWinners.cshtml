@@ -1,0 +1,71 @@
+﻿@model RAFE.Models.AwardMaster
+
+@{
+    ViewBag.Title = "PreviousYearWinners";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<style>
+    .form_text {
+        color: white;
+    }
+</style>
+<h2 class="form_text" style="margin-left:10px">Previous Year Winners</h2>
+<div class="col-md-12" style="background-color:white;">
+    <div >
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12" style="background-color:white;">
+                    <div >
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="box-tools pull-right">
+                                    @using (Html.BeginForm("download3", "Home", FormMethod.Post))
+                                    {
+                                        <button type="submit" class="fa fa-file fa-file-excel"></button>
+                                    }
+                                </div>
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="divtbl" style="overflow-x:scroll">
+                    @Html.Partial("_previouswinners", Model)
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+            @section scripts {
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#tblwinners').DataTable();
+                    });
+                </script>
+            }
+            <script type="text/javascript">
+    $('#Year').change(function () {
+                $('.loading').show();
+
+                $.ajax({
+                    url: '@Url.Action("AllCategory", "Home")',
+                    type: 'post',
+
+                    data: { Category: $('#Category').val(), subCategory: $('#Filter').val(), Year: $('#Year').val() },
+                    success: function (response) {
+
+
+                        $('#divtbl').empty(); $('#divtbl').html(response); $('#tblAwards').DataTable();
+                        $('.loading').hide();
+                    },
+                    error: function (xhr) {
+                        $('.loading').hide();
+                    }
+                });
+
+            });
+            </script>

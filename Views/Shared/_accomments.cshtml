@@ -1,0 +1,105 @@
+﻿@model RAFE.Models.AwardModel
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<style>
+    .formfield {
+        display: flex;
+        align-items: center;
+    }
+
+    #Approved {
+        background-color: #d8b751;
+        border-color: #d8b751;
+    }
+
+    .voice {
+        height: auto;
+    }
+
+    ul li {
+        display: inline;
+        float: left;
+    }
+
+    span, ul, li {
+        display: inline;
+    }
+</style>
+<body>
+    @using (Html.BeginForm("ACSave", "Home", FormMethod.Post))
+    {
+        <div class="container-fluid">
+            <div class="formfield">
+                <label>AC Members :</label>
+                @Html.DropDownListFor(m => Model.ACName, new SelectList(Model.ACNames, "text", "text"), "--Select All--", new { @class = "form-control" })
+            </div>
+            <div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div>
+                    <span style="font-weight:bold;" class="pull-left">AC Members: &nbsp;</span>
+                    <span>
+                        <ul>
+                            @foreach (var item in Model.ACNames)
+                            {
+                                <li>@item.text &nbsp;&nbsp;&nbsp; </li>
+                            }
+                        </ul>
+                    </span>
+                </div>
+                <br />
+            </div>
+            <br />
+            <div class="formfield" id="input-single">
+                <label id="comment" for="comments">Comments :</label>
+
+                @Html.TextAreaFor(m => m.Comments, new { @id = "note-textarea", @placeholder = "Create a new note by typing or using voice command", @rows = "5", @cols = "60" })
+                <input id="NominationID"
+                       name="NominationID"
+                       type="hidden"
+                       value="@Model.NominationID" />
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="start-record-btn" type="button" class="voice" title="Start Recording">Start Voice Command</button>
+            <button id="pause-record-btn" type="button" class="voice" title="Pause Recording">Stop Voice Command</button>
+            <p id="recording-instructions">Press the <strong>Start Recognition</strong> button and allow access.</p>
+            <br />
+
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" title="Save" id="Approved" name="Save" value="Save" class="btn btn-success approval-selection">Save</button>
+            <br />
+            <div>
+            </div>
+        </div>
+    }
+    <script src="~/Scripts/script.js"></script>
+</body>
+</html>
+
+<script type="text/javascript">
+
+    $('.loading').hide();
+    $('#ACName').change(function () {
+            $.ajax({
+                    url: "@Url.Action("ACommitteeComments", "Home")",
+                    type: "Post",
+                    data: { nominationId: $('#NominationID').val(), createdby : $(this).val() },
+                success: function (response) {
+                    $("#note-textarea").val(response);
+                        
+                    },
+                    error: function (xrh) {
+                    }
+            });
+
+    });
+
+</script>
+
+

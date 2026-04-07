@@ -1,0 +1,418 @@
+﻿@model RAFE.Models.AwardModel
+
+@{
+    ViewBag.Title = "Prism Award Nomination Form";
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Nomination Form
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action(" index", "home" )"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Nomination Form</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <form method="post" enctype="multipart/form-data" id="form_nomination">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="no-print">
+                    <div class="callout callout-info" style="margin-bottom: 0!important;">
+                        <h4>Nominator Detail</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-md-3 col-sm-3">
+                        <label>Name</label>
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <label class="label-box">
+                            @Model.NominatorDetails.Name
+                        </label>
+                        @Html.HiddenFor(m => Model.NominatorDetails.SamAccountName)
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-md-3 col-sm-3">
+                        <label>EmployeeID</label>
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <label class="label-box">
+                            @Model.NominatorDetails.Description
+                        </label>
+                        @Html.HiddenFor(m => Model.NominatorDetails.Description)
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-md-3 col-sm-3">
+                        <label>Function</label>
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <label class="label-box">
+                            @Model.NominatorDetails.Department
+                        </label>
+                        @Html.HiddenFor(m => Model.NominatorDetails.Department)
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-md-3 col-sm-3">
+                        <label>Mobile No</label>
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <label class="label-box">
+                            @Model.NominatorDetails.OfficePhone
+                        </label>
+                        @Html.HiddenFor(m => Model.NominatorDetails.OfficePhone)
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-md-3 col-sm-3">
+                        <label>EmailID</label>
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <label class="label-box">
+                            @Model.NominatorDetails.EmailAddress
+                        </label>
+                        @Html.HiddenFor(m => Model.NominatorDetails.EmailAddress)
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-md-3 col-sm-3">
+                        <label>Designation</label>
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <label class="label-box">
+                            @Model.NominatorDetails.Title
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-md-3 col-sm-3">
+                        <label>Year</label>
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => Model.AwardYear, new SelectList(Model.AwardYearList), new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(m => Model.AwardYear, "", new { @class = "text-danger  " })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-md-3 col-sm-3">
+                        <label>Quarter</label>
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => Model.AwardQuarter, new SelectList(Model.AwardQuarterList), new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(m => Model.AwardQuarter, "", new { @class = "text-danger  " })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-md-3 col-sm-3">
+                        <label>Bussiness</label>
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <label class="label-box">
+                            @Model.NominatorDetails.Company
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+
+        @if (Model.AwardYearList != null && Model.AwardYearList.Count > 0)
+        {
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="no-print">
+                        <div class="callout callout-info" style="margin-bottom: 0!important;">
+                            <h4>Award Detail</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-2 col-md-3 col-sm-4">
+                            <label>Award Category</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            @if (Model.AwardCategoryList.Count > 0)
+                            {
+                                for (int i = 0; i < Model.AwardCategoryList.Count; i++)
+                                {
+                                    <div class="col-lg-3 col-md-6 col-sm-6">
+                                        <label>
+                                            <input type="radio" value="@Model.AwardCategoryList[i].AwardCategoryId" name="AwardCategory" id="rbAward_@Model.AwardCategoryList[i].AwardCategoryId" @if (Model.NominationID == 0 && i == 0) { <text> checked="checked" </text>                } else if (Model.AwardCategory == Model.AwardCategoryList[i].AwardCategoryId) { <text> checked="checked" </text>                } /> @Model.AwardCategoryList[i].AwardCategory
+                                        </label>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-2 col-md-3 col-sm-4">
+                            <label>Award Type</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => Model.AwardType, new SelectList(ViewBag.AwardsType, "AwardTypeID", "AwardType"), "--Select type--", new { @class = "form-control select2", style = "width: 100%;", required = "required" })
+                                @Html.ValidationMessageFor(m => Model.AwardType, "", new { @class = "text-danger  " })
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_1">
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+                            <label>Employee</label>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12">
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => Model.EmployeeID1, new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--", new { id = "ddlemployee1", @class = "form-control select2", style = "width: 100%;", required = "required", onchange = "checkSameEmployee(this)" })
+                                @Html.ValidationMessageFor(m => Model.EmployeeID1, "", new { @class = "text-danger  " })
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-12 award-history" id="div_award_history1">
+                            @if (Model.NominationID != 0)
+                            {
+                                <button type="button" class="btn btn-info cls-award-history" id="btn_show_award1" data-id="@Model.EmployeeID1" data-place="div_award_history1">Award History</button>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_2">
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+                            <label>Employee</label>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12">
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => Model.EmployeeID2, new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--", new { id = "ddlemployee2", @class = "form-control select2", style = "width: 100%;", required = "required", onchange = "checkSameEmployee(this)" })
+                                @Html.ValidationMessageFor(m => Model.EmployeeID2, "", new { @class = "text-danger  " })
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-12 award-history" id="div_award_history2">
+                            @if (Model.NominationID != 0)
+                            {
+                                <button type="button" class="btn btn-info cls-award-history" id="btn_show_award2" data-id="@Model.EmployeeID2" data-place="div_award_history2">Award History</button>
+                            }
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_3">
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+                            <label>Employee</label>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12">
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => Model.EmployeeID3, new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--", new { id = "ddlemployee3", @class = "form-control select2", style = "width: 100%;", required = "required", onchange = "checkSameEmployee(this)" })
+                                @Html.ValidationMessageFor(m => Model.EmployeeID3, "", new { @class = "text-danger  " })
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-12 award-history" id="div_award_history3">
+                            @if (Model.NominationID != 0)
+                            {
+                                <button type="button" class="btn btn-info cls-award-history" id="btn_show_award3" data-id="@Model.EmployeeID3" data-place="div_award_history3">Award History</button>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_4">
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+                            <label>Employee</label>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12">
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => Model.EmployeeID4, new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--", new { id = "ddlemployee4", @class = "form-control select2", style = "width: 100%;", required = "required", onchange = "checkSameEmployee(this)" })
+                                @Html.ValidationMessageFor(m => Model.EmployeeID4, "", new { @class = "text-danger  " })
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-12 award-history" id="div_award_history4">
+                            @if (Model.NominationID != 0)
+                            {
+                                <button type="button" class="btn btn-info cls-award-history" id="btn_show_award4" data-id="@Model.EmployeeID4" data-place="div_award_history4">Award History</button>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_5">
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+                            <label>Employee</label>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12">
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => Model.EmployeeID5, new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--", new { id = "ddlemployee5", @class = "form-control select2", style = "width: 100%;", required = "required", onchange = "checkSameEmployee(this)" })
+                                @Html.ValidationMessageFor(m => Model.EmployeeID5, "", new { @class = "text-danger  " })
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-12 award-history" id="div_award_history5">
+                            @if (Model.NominationID != 0)
+                            {
+                                <button type="button" class="btn btn-info cls-award-history" id="btn_show_award5" data-id="@Model.EmployeeID5" data-place="div_award_history5">Award History</button>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_6">
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+                            <label>Employee</label>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12">
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => Model.EmployeeID6, new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--", new { id = "ddlemployee6", @class = "form-control select2", style = "width: 100%;", required = "required", onchange = "checkSameEmployee(this)" })
+                                @Html.ValidationMessageFor(m => Model.EmployeeID6, "", new { @class = "text-danger  " })
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-12 award-history" id="div_award_history6">
+                            @if (Model.NominationID != 0)
+                            {
+                                <button type="button" class="btn btn-info cls-award-history" id="btn_show_award6" data-id="@Model.EmployeeID6" data-place="div_award_history6">Award History</button>
+                            }
+                        </div>
+                    </div>
+
+                    @*@if (Model.EmployeeList.Count > 0)
+                        {
+                        int empcount = 1;
+                        for (int i = 0; i < Model.EmployeeList.Count; i++)
+                        {
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_@empcount">
+                            <div class="col-lg-2 col-md-3 col-sm-12">
+                                <label>Employee</label>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                @Html.DropDownListFor(m => Model.EmployeeList[i].EmployeeID, new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--", new { id = "ddlemployee" + empcount.ToString(), @class = "form-control select2", style = "width: 100%;", required = "required", onchange = "checkSameEmployee(this)" })
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                @Html.TextBoxFor(m => Model.EmployeeList[i].EmployeeImage, new { type = "file", onchange = "readImage(this, 'imgemp_" + empcount.ToString() + "')", accept = "image/*", onclick = "removeImage('imgemp_" + empcount.ToString() + "')" })
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12 award-history">
+
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12" style="margin-top:5px;">
+                                <img id="imgemp_@empcount" class="responsive" width="150" @if (string.isnullorempty(model.employeelist[i].imagepath)) {><text> src="/Content/img/Profile-icon.png" </text>   } else { <text> src="@Model.EmployeeList[i].ImagePath" </text>  } />
+                            </div>
+
+
+                        </div>
+                        empcount++;
+                        }
+                        }*@
+                    <div class="col-lg-12 col-md-12 col-sm-12" id="divEmp7">
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12">
+
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12">
+
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12">
+                            <button type="button" title="Add more" id="btnAddEmp" class="btn btn-success" onclick="ShowEmpSection()" style="display:none">Add More</button>
+                            <button type="button" title="Add more" id="btnRemoveEmp" class="btn btn-danger" onclick="HideEmpSection()" style="display:none">Remove</button>
+                            @Html.HiddenFor(m => m.EmpCount, new { id = "hdnEmpCount" })
+                            @Html.HiddenFor(m => m.NominationID)
+                            @Html.HiddenFor(m => m.isSubmitted)
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-4 col-md-4" style="margin-top:5px;">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        @Html.TextBoxFor(m => Model.EmployeeImage1, new { type = "file", onchange = "readImage(this, 'imgemp_1')", accept = "image/*", onclick = "removeImage('imgemp_1')", title = "Choose a pic please" })
+
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:5px;">
+                        <img id="imgemp_1" class="responsive" width="150" @if (string.IsNullOrEmpty(Model.ImagePath1)) { <text> src="/Content/img/Profile-icon.png" </text> } else { <text> src='@(RAFE.Utility.WebCommon.GetApplicationAbsolutePath() + "EmployeePic/" + @Model.ImagePath1)' </text>               } />
+                        @Html.HiddenFor(m => Model.ImagePath1)
+                    </div>
+                </div>
+            </div>
+            <div id="divAwardSection">
+                @Html.Partial("_AwardSection", Model)
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <center>
+                        <button type="button" title="Add more" id="btnSave" class="btn btn-success">Save</button>
+                        <button type="button" title="Add more" id="btnSubmitt" class="btn btn-success">Submitt</button>
+                    </center>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <center>
+                        Nomination has been closed
+                    </center>
+                </div>
+            </div>
+        }
+    </form>
+    <input type="hidden" id="URL" value="@Url.Action("getawarddata", "home" )" />
+    <input type="hidden" id="UrlAlreadyNominated" value="@Url.Action("checkalreadynominated", "home" )" />
+</section>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            if (parseInt($('#isSubmitted').val()) == 1) {
+                $('.form-control').attr("disabled", "disabled");
+                $('input[type=radio]').attr("disabled", "disabled");
+                $('#btnSave').hide();
+                $('#btnSubmitt').hide();
+                $('input[type=file]').hide();
+            }
+
+            $('#btnSave').click(function () {
+                $('.loading').show();
+                $('#isSubmitted').val(0);
+                var form = $("#form_nomination");
+                form.validate();
+                if (form.valid()) {
+                    form.submit();
+                }
+                else {
+                    $('.loading').hide();
+                }
+
+            });
+            $('#btnSubmitt').click(function () {
+                $('.loading').show();
+                $('#isSubmitted').val(1);
+
+                var form = $("#form_nomination");
+                form.validate();
+                if (form.valid()) {
+                    form.submit();
+                }
+                else {
+                    $('.loading').hide();
+                }
+
+            });
+        });
+    </script>
+}

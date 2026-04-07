@@ -1,0 +1,298 @@
+﻿@model RAFE.Models.NominationModel
+
+@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.Title = "RAFE All Nomination";
+
+}
+<style>
+    .form_text{
+        color:white;
+    }
+</style>
+<!-- Content Header (Page header) -->
+@if (Model.isAuthorized)
+{
+    <section class="content-header">
+        <h1 class="form_text">
+            Award Committee
+        </h1>
+        @*<ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">All Nomination(s)</li>
+            </ol>*@
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="alert-status" style="display:none">
+                @if (TempData["status"] != null)
+                {
+                    if (TempData["status"].ToString() == "1")
+                    {
+                        <label class="lbl-success">@TempData["message"].ToString() </label>
+                    }
+                    else
+                    {
+                        <label class="lbl-error">@TempData["message"].ToString() </label>
+                    }
+                }
+            </div>
+            <div class="col-md-12" style="background-color:white;">
+                <div class="box box-danger">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-3 pull-left" style="padding-bottom:5px;">
+
+                                @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "BU HR" || RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "COMM HR" || RAFE.Utility.WebCommon.GetUserCommittee(Request.Cookies["UserInfo"]).ToUpper() == "AWARD COMMITTEE" || RAFE.Utility.WebCommon.GetUserCommittee(Request.Cookies["UserInfo"]).ToUpper() == "JURY COMMITTEE")
+                                {
+
+
+                                    //<a href="@Url.Action("downloadData", "Common", new { dataType = "List" })" class="btn btn-primary" title="Download Overview List">Download</a>
+                                    //<a href="@Url.Action("downloadData", "Common", new { dataType = "InDetail" })" class="btn btn-primary" title="Download Detail List">Detail Excel</a>
+                                    @Html.DropDownListFor(m => Model.Category, new SelectList(Model.Categories, "text", "value"), new { @id = "Category", @class = "form-control" })
+
+                                }
+                            </div>
+                            <div class="col-md-3 pull-left" style="padding-bottom:5px;">
+                                @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "COMM HR" || RAFE.Utility.WebCommon.GetUserCommittee(Request.Cookies["UserInfo"]).ToUpper() == "AWARD COMMITTEE" || RAFE.Utility.WebCommon.GetUserCommittee(Request.Cookies["UserInfo"]).ToUpper() == "JURY COMMITTEE")
+                                {
+                                    
+                                    //<a onclick="CallAction('2022','year')" href="#" class="btn btn-primary" title="Download Overview List">22</a>
+                                    //<a onclick="CallAction('2021','year')" href="#" class="btn btn-primary" title="Download Overview List">21</a>
+                                    @Html.DropDownListFor(m => Model.Filter, new SelectList(Model.Filters.OrderByDescending(e => e.value), "text", "value"), new { @id = "Year", @class = "form-control" })
+
+                                }
+
+                            </div>
+                            <div class="col-md-3 pull-left" style="padding-bottom:5px;">
+                                @Html.DropDownListFor(m => Model.Filter, Enumerable.Empty<SelectListItem>(), new { @style = "display:none", @id = "Filter", @class = "form-control" })
+                            </div>
+                            <div>
+                                @*<a id="Download" href="@Url.Action("downloadData", "Common", new { dataType = "List" })" class="btn btn-primary" title="Download Overview List">Download</a>*@
+                                @*<a id="Download" class="btn btn-primary" title="Download Overview List">Download</a>
+                                <a id="InDetail" href="@Url.Action("downloadData", "Common", new { dataType = "InDetail" })" class="btn btn-primary" title="Download Detail List">Detail Excel</a>*@
+
+                            </div>
+                            <hr />
+                        </div>
+                        <div class="row">
+                            <div id="divtbl" style="overflow-x:scroll">
+                                @Html.Partial("_awardcommitteelist", Model)
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+        <form id="formInfo" target="_blank" action="@Url.Action("DataDownload","Common")" method="post">
+            <input type="hidden" id="year" name="year" value="0">
+            <input type="hidden" id="category" name="category" value="0">
+            <input type="hidden" id="master" name="master" value="0">
+            <input type="hidden" id="subcategory" name="subcategory" value="0">
+        </form>
+    </section>
+
+    @section scripts {
+        <script>
+        function CallAction(Year, ActionName) {
+
+            if (ActionName == "year") {
+                url = '@Url.Action("AllNominationYear", "Home")';
+                text = "set Sequence number";
+            }
+
+            $.ajax({
+                        url: url,
+                        type: 'post',
+
+                   data: { Year: Year },
+                success: function (response) {
+
+
+                    $('#divtbl').empty();  $('#divtbl').html(response); $('#tblAwards').DataTable();
+                        },
+                        error: function (xhr) {
+                        }
+                    })
+            $(".swal-title").css('background-color', '#fcf8e3').css('color', '#8a6d3b');
+            $('.swal-button--confirm').css('background-color', '#f0ad4e');
+        }
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('#tblAwards').DataTable({
+                    stateSave: true
+                });
+                $("#Filter").html(' ');
+            });
+
+            $('#tblAwards').on('click', '.revert', function () {
+            confirmRevert($(this).data('id'));
+        });
+            function confirmRevert(id) {
+                $('.loading').show();
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $('loading').show();
+                        $.ajax({
+                            url: "@Url.Action("NominationRevert", "Home")",
+                            type: "POST",
+                            data: {
+                                id: id
+                            },
+                            success: function () {
+                                swalSuccessAndReload("Done!", "It was succesfully reverted!","");
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                swal("Error deleting!", "Please try again", "error");
+                            }
+                        });
+                    } else {
+                        swal("Your record is safe!");
+                    }
+
+                });
+            }
+            $('#Category').change(function () {
+
+                if ($('#Category').val() != "1") {
+                    $("#Filter").attr("style", "display:inline");
+                    $("#InDetail").attr("style", "display:none");
+                } else {
+                    $("#Filter").attr("style", "display:none");
+                    $("#InDetail").attr("style", "display:inline");
+                }
+
+                 $.ajax({
+                        url: "@Url.Action("GetSubCategory", "Home")",
+                        type: "POST",
+                        data: {
+                            Category: $('#Category').val()
+                        },
+                        success: function (response) {
+                            $("#Filter").html(' ');
+                            $("#Filter").append($('<option></option>').val("").html("--Select--"));
+                            $.each(response, function (id, option) {
+                                $("#Filter").append($('<option></option>').val(option.value).html(option.text));
+                            });
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            swal("Error deleting!", "Please try again", "error");
+                        }
+                    });
+            });
+            $('#Year').change(function () {
+                $('.loading').show();
+
+                $.ajax({
+                    url: '@Url.Action("AwardCategory", "Home")',
+                    type: 'post',
+
+                    data: { Category: $('#Category').val(), subCategory: $('#Filter').val(), Year: $('#Year').val() },
+                    success: function (response) {
+
+
+                        $('#divtbl').empty(); $('#divtbl').html(response); $('#tblAwards').DataTable();
+                        $('.loading').hide();
+                    },
+                    error: function (xhr) {
+                        $('.loading').hide();
+                    }
+                });
+
+            });
+            $('#Filter').change(function () {
+                $('.loading').show();
+                $.ajax({
+                    url: '@Url.Action("AwardCategory", "Home")',
+                    type: 'post',
+
+                    data: { Category: $('#Category').val(), subCategory: $('#Filter').val(), Year: $('#Year').val() },
+                    //data: { subCategory: $('#Filter').val(), Year: $('#Year').val() },
+
+                    success: function (response) {
+
+
+                        $('#divtbl').empty(); $('#divtbl').html(response); $('#tblAwards').DataTable();
+                        $('.loading').hide();
+                    },
+                    error: function () {
+                        alert("No Records Found");
+                        $('.loading').hide();
+                    }
+                })
+            });
+            $('#Download').click(function () {
+
+                @*var datatypeId = "";
+                if ($('#Year').val() != "") {
+                    datatypeId = "list";
+                } else {
+                    datatypeId = "indetail";
+                }
+                $.ajax({
+                    url: '@Url.Action("downloadData", "Common")',
+                    type: 'POST',
+
+                    data: {
+                        dataType: datatypeId
+                    },
+                    success: function (response) {
+
+                    },
+                    error: function (xhr) {
+
+                    }
+                });*@
+
+                $('#year').val($('#Year').val());
+                $('#category').val($('#Category').val());
+                $('#subcategory').val($('#Filter').val());
+                if ($('#Category').val() == "1" && $('#Year').val() != "") {
+                    $('#master').val('list');
+                }
+                else {
+                    $('#master').val('indetailf');
+                }
+                //let input = $("<input>").attr("type", "hidden").attr("name", "year").val($('#Year').val());
+                //$('#formInfo').apF($(input));
+
+                //let input1 = $("<input>").attr("type", "hidden").attr("name", "category").val($('#Category').val());
+                //$('#formInfo').append($(input1));
+
+
+
+                //if ($('#Category').val() == "1") {
+                //    let input3 = $("<input>").attr("type", "hidden").attr("name", "master").val('list');
+                //    $('#formInfo').append($(input3));
+                //}
+                //else {
+                //    let input2 = $("<input>").attr("type", "hidden").attr("name", "subcategory").val($('#Filter').val());
+                //    $('#formInfo').append($(input2));
+
+                //    let input3 = $("<input>").attr("type", "hidden").attr("name", "master").val('indetail');
+                //    $('#formInfo').append($(input3));
+                //}
+
+
+
+                $('#formInfo').submit();
+            });
+        </script>
+
+    }
+}
+else
+{
+    @Html.Partial("_unAuthorized")
+}

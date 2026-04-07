@@ -1,0 +1,58 @@
+﻿@model RAFE.Models.JuryModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<style>
+    .formfield {
+        display: flex;
+        align-items: center;
+    }
+    button#btnSave, button#Approved, button#btnAddEmp, button#btnApproved, button#btnReject {
+        background-color: #d8b751;
+        border-color: #d8b751;
+    }
+    button#btnSubmitt, button#btnRemoveEmp, button#btnNMI {
+        background-color: #9A792C;
+        border-color: #9A792C;
+    }
+    .voice {
+        height: auto;
+    }
+</style>
+<body>
+    @using (Html.BeginForm("JCSave", "Home", FormMethod.Post))
+    {
+    <div class="container-fluid">
+        <div class="formfield" id="input-single">
+            <label id="comment" for="comments">Comments :</label>
+            @Html.TextAreaFor(m => m.Comments, new { @id = "note-textarea", @placeholder = "Create a new note by typing or using voice command", @rows = "5", @cols = "60" })
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="start-record-btn" type="button" class="voice" title="Start Recording">Start Voice Command</button>
+        <button id="pause-record-btn" type="button" class="voice" title="Pause Recording">Stop Voice Command</button>
+        <p id="recording-instructions">Press the <strong>Start Recognition</strong> button and allow access.</p>
+        <br />
+        <br />
+        <input type="hidden" name="NominationId" value="@Model.NominationID" />
+        @*<button type="button" title="Shortlisted" id="Approved" class="btn btn-success approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.Shortlisted)">Shortlisted</button>
+        <button type="button" title="Need More Information" id="btnNMI" class="btn btn-info approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.NeedMoreInfo)">Need More Information</button>*@
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="submit" title="Save" id="Approved" name="Save" value="Save" class="btn btn-success approval-selection">Save</button>
+        <br />
+        <div>
+        </div>
+    </div>
+    }
+    <script src="~/Scripts/script.js"></script>
+</body>
+<script>
+    $('.loading').hide();
+</script>
+</html>

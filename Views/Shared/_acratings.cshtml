@@ -1,0 +1,118 @@
+﻿@model List<RAFE.Models.RatingHeads>
+<style>
+    #Approved {
+        background-color: #d8b751;
+        border-color: #d8b751;
+    }
+</style>
+@using (Html.BeginForm("ACRatingsSave", "Home", FormMethod.Post))
+{
+    <div class="row" style="margin:10px">
+        <form action="" class="form-horizontal">
+            <table id="tblratings" cellpadding="2" cellspacing="3">
+                <thead>
+                    <tr style="margin-bottom:10px">
+                        <th width="55%" style="text-align:center">Rating Head</th>
+                        <th width="23%">Weightage (in %)</th>
+                        <th style="text-align:center">Enter Your Score (Out of 10)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in Model)
+                    {
+                        <tr>
+                            <td width="50%">
+
+                                @i.ratingname
+                            </td>
+                            <td style="text-align:center">
+
+                                @i.weightage
+
+                            </td>
+                            <td>
+
+                                <input class="form-control value_check" type="text"
+                                       id="@i.Id" value="@i.score" size="25">
+                            </td>
+                            <td>
+                                <input type="hidden" value="@i.nominationid" name="NominationId" />
+                            </td>
+                            <td>
+                                <input type="hidden" value="@i.awardtypeid" name="AwardTypeId" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br /><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" title="Save" id="Approved" name="Save" value="Save" class="btn btn-success approval-selection">Save</button>
+            <br /><br />
+            <div class="formfield text-center" id="input-single">
+                <label id="calc_score" for="score">Final Score :</label>
+                <input type="text" disabled ="disabled" id="Final_Score"/>
+            </div>
+                
+        </form>
+    </div>
+}
+<script type="text/javascript">
+
+    function calc_sum() {
+        var sum = 0;
+        $("#tblratings tbody tr").each(function () {
+            var model = new Array();
+            var row = $(this);
+            var RatingHeads = {};
+            RatingHeads.ratingname = row.find("TD").eq(0).html();
+            RatingHeads.weightage = row.find("TD").eq(1).html();
+            RatingHeads.score = row.find("td:eq(2) input[type='text']").val();
+            RatingHeads.nominationid = row.find("td:eq(3) input[type='hidden']").val();
+            sum = sum + ((RatingHeads.score) * (RatingHeads.weightage) / 10);
+            model.push(RatingHeads);
+        });
+        return (sum / 10).toPrecision(3);
+    }
+    $(document).ready(function () {
+        $('#Final_Score').val(calc_sum());
+    });
+
+    $('#Approved').click(function () {
+        var model = new Array();
+        var sum = 0;
+        $("#tblratings tbody tr").each(function () {
+       
+            var row = $(this);
+            var RatingHeads = {};
+            RatingHeads.ratingname = row.find("TD").eq(0).html();
+            RatingHeads.weightage = row.find("TD").eq(1).html();
+            RatingHeads.score = row.find("td:eq(2) input[type='text']").val();
+            RatingHeads.nominationid = row.find("td:eq(3) input[type='hidden']").val();
+            sum = sum + ((RatingHeads.score) * (RatingHeads.weightage) / 10);
+            model.push(RatingHeads);
+        });
+        $('#Final_Score').val(calc_sum());
+        $.ajax({
+            type: "POST",
+            url: "/Home/ACRatingsSave",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+          
+            success: function (r) {
+            }
+        });
+    });
+    $(function () {
+        $(".value_check").change(function () {
+            if ($(this).val() > 10) {
+                $(this).val(10);
+            }
+            else if ($(this).val() < 0) {
+                $(this).val(0);
+            }
+        });
+    }); 
+</script>

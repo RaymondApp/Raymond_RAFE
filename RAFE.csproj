@@ -1,0 +1,542 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{950AB158-4703-4695-9377-5252D7FDD24A}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RAFE</RootNamespace>
+    <AssemblyName>RAFE</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClosedXML, Version=0.94.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.94.2\lib\net40\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.3.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.0.3\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="FastMember, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.1.3.0\lib\net45\FastMember.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.1\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <Private>True</Private>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="New folder\" />
+    <Folder Include="Views\AutoAction\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BAL\AwardMaster_BAL.cs" />
+    <Compile Include="BAL\Mail_BAL.cs" />
+    <Compile Include="BAL\Menu_BAL.cs" />
+    <Compile Include="BAL\Nomination_BAL.cs" />
+    <Compile Include="BAL\UserMaster_BAL.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AutoActionController.cs" />
+    <Compile Include="Controllers\AwardController.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MasterController.cs" />
+    <Compile Include="DAL\SQLHelper.cs" />
+    <Compile Include="Filter\CheckValidUser.cs" />
+    <Compile Include="Filter\ExceptionFilter.cs" />
+    <Compile Include="Filter\HandleAndLogErrorAttribute.cs" />
+    <Compile Include="Filter\NoDirectAccessAttribute.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AwardMasterModel.cs" />
+    <Compile Include="Models\AwardModel.cs" />
+    <Compile Include="Models\Common.cs" />
+    <Compile Include="Models\Mail.cs" />
+    <Compile Include="Models\MenuModel.cs" />
+    <Compile Include="Models\NominationModel.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\ClsLogging.cs" />
+    <Compile Include="Utility\CommonDataTable.cs" />
+    <Compile Include="Utility\Constants.cs" />
+    <Compile Include="Utility\EmailLibrary.cs" />
+    <Compile Include="Utility\ResultMessage.cs" />
+    <Compile Include="Utility\StringCipher.cs" />
+    <Compile Include="Utility\WebCommon.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\RAFE.dll" />
+    <Content Include="bin\RAFE.pdb" />
+    <Content Include="Content\css\AdminLTE.css" />
+    <Content Include="Content\css\AdminLTE_bak.css" />
+    <Content Include="Content\css\blue.css" />
+    <Content Include="Content\css\bootstrap-datepicker.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\bootstrapValidator.min.css" />
+    <Content Include="Content\css\custom.css" />
+    <Content Include="Content\css\datatables\dataTables.bootstrap.css" />
+    <Content Include="Content\css\datatables\jquery.dataTables.css" />
+    <Content Include="Content\css\datatables\jquery.dataTables.min.css" />
+    <Content Include="Content\css\datatables\jquery.dataTables_themeroller.css" />
+    <Content Include="Content\css\font-awesome.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\img\bg  rafe .png" />
+    <Content Include="Content\css\img\bg  rafe1.png" />
+    <Content Include="Content\css\img\bg  rafe2.png" />
+    <Content Include="Content\css\img\bg pattern.png" />
+    <Content Include="Content\css\img\datatables\sort_asc.png" />
+    <Content Include="Content\css\img\datatables\sort_asc_disabled.png" />
+    <Content Include="Content\css\img\datatables\sort_both.png" />
+    <Content Include="Content\css\img\datatables\sort_desc.png" />
+    <Content Include="Content\css\img\datatables\sort_desc_disabled.png" />
+    <Content Include="Content\css\img\Name_Bar.png" />
+    <Content Include="Content\css\img\Watermark_1_new.jpg" />
+    <Content Include="Content\css\img\Watermark_2.jpg" />
+    <Content Include="Content\css\img\Watermark_3.jpg" />
+    <Content Include="Content\css\img\Watermark_4.jpg" />
+    <Content Include="Content\css\img\Watermark_5.jpg" />
+    <Content Include="Content\css\img\Watermark_6.jpg" />
+    <Content Include="Content\css\img\Watermark_6_Final.png" />
+    <Content Include="Content\css\img\Watermark_6_New.jpg" />
+    <Content Include="Content\css\img\Watermark_7.jpg" />
+    <Content Include="Content\css\img\Website background.png" />
+    <Content Include="Content\css\img\Winners Watermark_2.png" />
+    <Content Include="Content\css\img\Winners Watermark_2_md.png" />
+    <Content Include="Content\css\img\Winners Watermark_2_sm.png" />
+    <Content Include="Content\css\jquery-ui.css" />
+    <Content Include="Content\css\select2.min.css" />
+    <Content Include="Content\css\styles.css" />
+    <Content Include="Content\css\Tooltip.css" />
+    <Content Include="Content\css\_all-skins.min.css" />
+    <Content Include="Content\EmailTemplate\forgotPassword.html" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\img\2237060%402x.png" />
+    <Content Include="Content\img\2237060%402x_mm.png" />
+    <Content Include="Content\img\award_catnew_1_.png" />
+    <Content Include="Content\img\award_catnew_2_.png" />
+    <Content Include="Content\img\award_catnew_3_.png" />
+    <Content Include="Content\img\blue.png" />
+    <Content Include="Content\img\boxed-bg.jpg" />
+    <Content Include="Content\img\boxed-bg.png" />
+    <Content Include="Content\img\Bug.png" />
+    <Content Include="Content\img\datatables\sort_asc.png" />
+    <Content Include="Content\img\datatables\sort_asc_disabled.png" />
+    <Content Include="Content\img\datatables\sort_both.png" />
+    <Content Include="Content\img\datatables\sort_desc.png" />
+    <Content Include="Content\img\datatables\sort_desc_disabled.png" />
+    <Content Include="Content\img\default-50x50.gif" />
+    <Content Include="Content\img\divider.png" />
+    <Content Include="Content\img\download_video.png" />
+    <Content Include="Content\img\download_video_1.png" />
+    <Content Include="Content\img\error-404.png" />
+    <Content Include="Content\img\Export.png" />
+    <Content Include="Content\img\File Upload.png" />
+    <Content Include="Content\img\Finance File Upload.png" />
+    <Content Include="Content\img\FinanceHODApproval UploadIcon.png" />
+    <Content Include="Content\img\finance_approval.png" />
+    <Content Include="Content\img\lastwinners.jpg" />
+    <Content Include="Content\img\icons.png" />
+    <Content Include="Content\img\images.png" />
+    <Content Include="Content\img\Login-bg.png" />
+    <Content Include="Content\img\Login_Page_RayProcurement.jpg" />
+    <Content Include="Content\img\Login_Page_RayProcurement_1.jpg" />
+    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\logout.png" />
+    <Content Include="Content\img\Mobile Home Page.jpg" />
+    <Content Include="Content\img\Mobile_Home_Page.jpg" />
+    <Content Include="Content\img\Name_Bar.png" />
+    <Content Include="Content\img\Photo Upload.png" />
+    <Content Include="Content\img\Picture2.png" />
+    <Content Include="Content\img\Picture20.png" />
+    <Content Include="Content\img\Picture21.png" />
+    <Content Include="Content\img\Picture2_new.jpg" />
+    <Content Include="Content\img\PRISM_Logo_Final_1.jpg" />
+    <Content Include="Content\img\PRISM_Logo_Final_2.jpg" />
+    <Content Include="Content\img\Profile-icon.png" />
+    <Content Include="Content\img\RAE Award Home Page Option.jpg" />
+    <Content Include="Content\img\RAE Award Home Page.jpg" />
+    <Content Include="Content\img\RAFE Final Black Logo Hires.png" />
+    <Content Include="Content\img\RAFE_Final.jpg" />
+    <Content Include="Content\img\RAFE_Final_1.jpg" />
+    <Content Include="Content\img\RAFE_Final_Mobile.jpg" />
+    <Content Include="Content\img\RAFE_HomePage_Final.jpg" />
+    <Content Include="Content\img\RAFE_Home_1.png" />
+    <Content Include="Content\img\RAFE_Home_1_New.png" />
+    <Content Include="Content\img\Raymond Logo Hires RGB.png" />
+    <Content Include="Content\img\Raymond-logo.jpg" />
+    <Content Include="Content\img\trash.jpg" />
+    <Content Include="Content\img\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\img\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\img\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\img\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\img\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\img\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\img\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\img\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\img\ui-icons_222222_256x240.png" />
+    <Content Include="Content\img\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\img\ui-icons_454545_256x240.png" />
+    <Content Include="Content\img\ui-icons_888888_256x240.png" />
+    <Content Include="Content\img\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\img\Video Upload.png" />
+    <Content Include="Content\img\Website cover_dark.jpg" />
+    <Content Include="Content\img\Website cover_dark_Mobile.jpg" />
+    <Content Include="Content\js\adminlte.js" />
+    <Content Include="Content\js\bootstrap-datepicker.js" />
+    <Content Include="Content\js\bootstrap.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\bootstrapValidator.min.js" />
+    <Content Include="Content\js\Charts\Chart.js" />
+    <Content Include="Content\js\Charts\Chart.PieceLabel.min.js" />
+    <Content Include="Content\js\Charts\highcharts.js" />
+    <Content Include="Content\js\common.js" />
+    <Content Include="Content\js\custom.js" />
+    <Content Include="Content\js\Custome\NominationForm\NominationForm.js" />
+    <Content Include="Content\js\datatables\3.2.6_dataTables.fixedColumns.min.js" />
+    <Content Include="Content\js\datatables\dataTables.bootstrap.js" />
+    <Content Include="Content\js\datatables\dataTables.bootstrap.min.js" />
+    <Content Include="Content\js\datatables\dataTables.fixedColumns.min.js" />
+    <Content Include="Content\js\datatables\dataTables.fixedHeader.js" />
+    <Content Include="Content\js\datatables\jquery.dataTables.js" />
+    <Content Include="Content\js\datatables\jquery.dataTables.min.js" />
+    <Content Include="Content\js\fastclick.js" />
+    <Content Include="Content\js\icheck.min.js" />
+    <Content Include="Content\js\jquery-ui.js" />
+    <Content Include="Content\js\jquery.dataTables.min.js" />
+    <Content Include="Content\js\jquery.stickytableheaders.min.js" />
+    <Content Include="Content\img\datatables\Thumbs.db" />
+    <Content Include="Content\img\Thumbs.db" />
+    <None Include="Content\js\jquery\jquery-1.10.2.intellisense.js" />
+    <Content Include="Content\js\jquery\jquery-1.10.2.js" />
+    <Content Include="Content\js\jquery\jquery-1.10.2.min.js" />
+    <Content Include="Content\js\jquery\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Content\js\jquery\jquery.validate.js" />
+    <Content Include="Content\js\jquery\jquery.validate.min.js" />
+    <Content Include="Content\js\jquery\jquery.validate.unobtrusive.js" />
+    <Content Include="Content\js\jquery\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\js\Main.js" />
+    <Content Include="Content\js\modernizr-2.6.2.js" />
+    <Content Include="Content\js\respond.js" />
+    <Content Include="Content\js\respond.min.js" />
+    <Content Include="Content\js\select2.full.min.js" />
+    <Content Include="Content\js\sweetalert.min.js" />
+    <Content Include="Content\js\validator.min.js" />
+    <None Include="Content\js\_references.js" />
+    <Content Include="EmployeePic\.png" />
+    <Content Include="EmployeePic\636879910664209010.png" />
+    <Content Include="EmployeePic\636880916304278449.jpg" />
+    <Content Include="EmployeePic\636961403485152838.jpg" />
+    <Content Include="EmployeePic\636961408176555390.jpg" />
+    <Content Include="EmployeePic\636964529034779503.png" />
+    <Content Include="EmployeePic\636971601963035472.jpg" />
+    <Content Include="EmployeePic\636972581120838496.jpg" />
+    <Content Include="EmployeePic\636974157080120648.jpg" />
+    <Content Include="EmployeePic\636974202371032372.jpg" />
+    <Content Include="EmployeePic\636974202444157297.jpg" />
+    <Content Include="EmployeePic\636974202485719744.jpg" />
+    <Content Include="EmployeePic\636974216875870925.jpeg" />
+    <Content Include="EmployeePic\636974219116807760.jpg" />
+    <Content Include="EmployeePic\636974231821805930.PNG" />
+    <Content Include="EmployeePic\636974309883933629.jpg" />
+    <Content Include="EmployeePic\636975018396941968.jpg" />
+    <Content Include="EmployeePic\636975213436311578.jpg" />
+    <Content Include="EmployeePic\636975218444743010.jpg" />
+    <Content Include="EmployeePic\636975230833478935.jpg" />
+    <Content Include="EmployeePic\636975319017772081.jpg" />
+    <Content Include="EmployeePic\636975828739209770.jpg" />
+    <Content Include="EmployeePic\636977588511360684.jpg" />
+    <Content Include="EmployeePic\636978401833787916.jpg" />
+    <Content Include="EmployeePic\636979512062915037.JPG" />
+    <Content Include="EmployeePic\636982265313215437.png" />
+    <Content Include="EmployeePic\637133907487821307.JPG" />
+    <Content Include="EmployeePic\ashutoshbichave.png" />
+    <Content Include="EmployeePic\ayushnagar.png" />
+    <Content Include="EmployeePic\dipendrarathore.png" />
+    <Content Include="EmployeePic\dotnetconsultant.png" />
+    <Content Include="EmployeePic\GajananYandarkar.png" />
+    <Content Include="EmployeePic\minaryadav.jpg" />
+    <Content Include="EmployeePic\mohdqureshi.png" />
+    <Content Include="EmployeePic\NehaDBrahmbhatt.jpg" />
+    <Content Include="EmployeePic\sawantvaishali.png" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="log\Prism_Log_31122019.txt" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\css\bootstrap.css.map" />
+    <Content Include="Content\css\font-awesome.css.map" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\js\jquery\jquery-1.10.2.min.map" />
+    <Content Include="ProcessNote\Prism_RR_Process_Note.pdf" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\script.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Upload\Dejavu\Deja-vu-Shridhar-Chavan.jpg" />
+    <Content Include="Upload\Dejavu\Deja-vu_Dhrubajyoti-Goswami.jpg" />
+    <Content Include="Upload\Image\15a568da-b81d-46ac-83db-bdc49d3afcf5.JPG" />
+    <Content Include="Upload\Image\3158313a-4acc-43aa-9034-a0e77c07d566.jpg" />
+    <Content Include="Upload\Image\34cf60e9-6815-47f8-aa2a-ab1f0a612d09.png" />
+    <Content Include="Upload\Image\3a2ac6f7-aa94-4211-a6cb-a0c3283c372b.jpg" />
+    <Content Include="Upload\Image\5adceeb1-be29-4dc1-96f3-33187d38512a.jpg" />
+    <Content Include="Upload\Image\61be4d05-e670-4439-b17d-e6882f924f1a.JPG" />
+    <Content Include="Upload\Image\70ab0c36-96c2-4b85-acdc-3ceb65192875.png" />
+    <Content Include="Upload\Image\76833cc7-52fb-434d-ba89-4dbdc2730b1a.png" />
+    <Content Include="Upload\Image\85e361d6-90c0-4886-920a-008cbc680f75.jpg" />
+    <Content Include="Upload\Image\97903cce-20b4-4b04-b7e8-95fa1572a244.png" />
+    <Content Include="Upload\Image\9b0a8a80-b738-4604-b530-02c00da10d66.JPG" />
+    <Content Include="Upload\Image\f52c9701-ff1b-4dff-b681-86e59ec643d7.JPG" />
+    <Content Include="Upload\log\Prism_Log_02022020.txt" />
+    <Content Include="Upload\log\Prism_Log_03022020.txt" />
+    <Content Include="Upload\log\Prism_Log_04022020.txt" />
+    <Content Include="Upload\log\Prism_Log_12022020.txt" />
+    <Content Include="Upload\log\Prism_Log_13022020.txt" />
+    <Content Include="Upload\log\Prism_Log_17022020.txt" />
+    <Content Include="Upload\log\Prism_Log_27012020.txt" />
+    <Content Include="Upload\log\Prism_Log_29012020.txt" />
+    <Content Include="Upload\log\Prism_Log_30012020.txt" />
+    <Content Include="Upload\log\Prism_Log_31012020.txt" />
+    <Content Include="Upload\Video\02ac8e50-c544-44e7-950d-866511398f46.MP4" />
+    <Content Include="Upload\Video\570bb5ef-a942-4f78-be3e-a5fb51145caa.MP4" />
+    <Content Include="Upload\Video\5bfc4ad9-df9d-40fb-b87b-f4fa7cce7c99.MP4" />
+    <Content Include="Upload\Video\7d4e54bb-adca-460b-9bde-e51c4b79d5dc.MP4" />
+    <Content Include="Upload\Video\817667f1-5366-4cf6-ac46-82823ebc38c4.MP4" />
+    <Content Include="Upload\Video\dd778a21-41ee-417b-ad5c-fc905597586d.MP4" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Shared\_ChangePassword.cshtml" />
+    <Content Include="Views\Shared\_NevigationMenu.cshtml" />
+    <Content Include="Views\Shared\_AwardSection.cshtml" />
+    <Content Include="Views\Home\AllNomination.cshtml" />
+    <Content Include="Views\Shared\_AwardHistory.cshtml" />
+    <Content Include="Views\Home\NominationForm.cshtml" />
+    <Content Include="Views\Master\EditAward.cshtml" />
+    <Content Include="Views\Master\AllAwards.cshtml" />
+    <Content Include="Views\Common\unauthorized.cshtml" />
+    <Content Include="Views\Home\CXOPanel.cshtml" />
+    <Content Include="Views\Shared\_nominationList.cshtml" />
+    <Content Include="Views\Common\Error.cshtml" />
+    <Content Include="Views\Home\approve.cshtml" />
+    <Content Include="Views\Home\LastWinners.cshtml" />
+    <Content Include="Views\Home\Indexnew.cshtml" />
+    <Content Include="Views\Shared\_NewLayout.cshtml" />
+    <Content Include="Views\Home\index_old.cshtml" />
+    <Content Include="Views\Shared\_LoggedInUser.cshtml" />
+    <Content Include="Views\Shared\_unAuthorized.cshtml" />
+    <Content Include="Views\Home\Dejavu.cshtml" />
+    <Content Include="Upload\File\4cec5fb0-4f53-4475-9128-6727312c0b98.xlsx" />
+    <Content Include="Upload\File\66fc1712-33c7-4655-908b-3e20969ba764.xlsx" />
+    <Content Include="Upload\File\ab104a85-55f5-4004-87e0-bb1e8fb3fa04.zip" />
+    <Content Include="Upload\File\afd4418a-7da9-4817-b263-ff129d35c54a.xlsx" />
+    <Content Include="Upload\File\c51ef834-31a5-40bf-8916-efe2741fc911.pdf" />
+    <Content Include="Upload\File\ffa6f548-9102-4410-91fc-ca44ea143428.xlsx" />
+    <Content Include="Views\Home\JuryPanel.cshtml" />
+    <Content Include="Views\Shared\_AwardList.cshtml" />
+    <Content Include="Views\Common\DataDownload.cshtml" />
+    <Content Include="Views\Home\Profiler.cshtml" />
+    <Content Include="Views\Home\AdminPage.cshtml" />
+    <Content Include="Views\Home\AddEdit.cshtml" />
+    <Content Include="Views\Dashboard\NominationStatus.cshtml" />
+    <Content Include="Views\Award\Index.cshtml" />
+    <Content Include="Views\Home\AwardCommittee.cshtml" />
+    <Content Include="Views\Home\JuryCommittee.cshtml" />
+    <Content Include="Views\Shared\_awardcommitteelist.cshtml" />
+    <Content Include="Views\Shared\Details.cshtml" />
+    <Content Include="Views\Shared\_jurycommitteelist.cshtml" />
+    <Content Include="Views\Shared\JuryDetails.cshtml" />
+    <Content Include="Views\Shared\_accomments.cshtml" />
+    <Content Include="Views\Shared\_acratings.cshtml" />
+    <Content Include="Views\Shared\_acmapping.cshtml" />
+    <Content Include="Views\Shared\_previouswinners.cshtml" />
+    <Content Include="Views\Home\PreviousYearWinners.cshtml" />
+    <Content Include="Views\Home\_SendFeedBack.cshtml" />
+    <Content Include="Views\Home\AwardStatus.cshtml" />
+    <Content Include="Views\Home\GiveFeedBack.cshtml" />
+    <Content Include="Views\Home\SeeFeedback.cshtml" />
+    <Content Include="Views\Shared\_JuryFeedback.cshtml" />
+    <Content Include="Views\Shared\_RequirdFeedbackDetails.cshtml" />
+    <Content Include="Views\Home\BUCommittee.cshtml" />
+    <Content Include="Views\Shared\_bucommitteelist.cshtml" />
+    <Content Include="Views\Shared\BUCommitteeDetails.cshtml" />
+    <Content Include="Views\Dashboard\BU_Dashboard.cshtml" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>65337</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:65337/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

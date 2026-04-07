@@ -1,0 +1,161 @@
+﻿@model RAFE.Models.NominationModel
+
+
+<style>
+    .abcd {
+        background-color: #9A792C;
+        border-color: #9A792C;
+        color: white;
+    }
+</style>
+
+<table class="table table-bordered table-responsive" id="tblAwards">
+    <thead>
+        <tr>
+            <th>Sr No</th>
+            <th>Nomination ID</th>
+            <th>Award Category</th>
+            <th style="width: 80px !important;">Award Type</th>
+            <th>Function</th>
+            <th style="width: 120px !important;">Nominated By</th>
+            <th>Nominee</th>
+            <th>Award Committee Members</th>
+            <th>Award Committee Comments</th>
+            <th>Rating</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Nominationlist.Count > 0)
+        {
+            foreach (var item in Model.Nominationlist)
+            {
+                <tr>
+                    <td>@item.SrNo</td>
+                    <td>
+                        <a style='margin:5px;' href="@Url.Action("NominationForm", "home", new { id = @item.NominationID })">
+                            @if (item.isSubmitted)
+                            {<text> @item.NominationID </text>}
+                        else
+                        {<text> Edit </text>}
+                        </a>
+                        @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "BU HR" && item.isSubmitted == true)
+                        {
+                            <a class="btn btn-primary" style='margin:5px;' href="@Url.Action("NominationForm", "home", new { id = @item.NominationID,Flag="Edit" })">
+                                <text>Edit</text>
+                            </a>
+                        }
+                        @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "COMM HR" && item.StatusID == 4)
+                        {
+                            <button type='button' style='margin:5px;' class='btn btn-info revert' text='revert' data-id='@item.NominationID' title="Revert to draft save"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp; Revert</button>
+                            //Changes on 31
+                            <a class="btn btn-primary" style='margin:5px;' href="@Url.Action("NominationForm", "home", new { id = @item.NominationID,Flag="Edit" })">
+                                <text>Edit</text>
+                            </a>
+                        }
+                    </td>
+                    <td>@item.AwardCategory</td>
+                    <td>@item.AwardType</td>
+                    <td>@item.FunctionName</td>
+                    <td>@item.Nominator</td>
+                    <td>@item.Nomenees</td>
+                    <td>
+                        @{ 
+                            int length = item.ACMember.Split(new char[] { ',' }).Count();
+                            string[] arr = new string[length];
+                            arr = item.ACMember.Split(new char[] { ',' });
+                        }
+                        <ul>
+                            @foreach(var i in arr)
+                            {
+                                <li>
+                                    @i.ToString()
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                    <td>@item.Comments</td>
+                    <td>
+                        @if (@item.Rating != "0")
+                        {
+                            <a href="javascript:void(0)" class="label label-success" data-toggle="popover" data-placement="bottom"
+                               data-html="true" data-content="@item.Score_Details.ToString().Replace(";"," <br/>")" >
+                                @item.Rating
+                            </a>
+                        }
+                    </td>
+                    <td>
+                        <input style='margin:5px;' type="button" class="abcd btn" id="abcd" value=". . ." data-id="@item.NominationID" />
+                        <button style='margin:5px;padding:6px 10px;' type="button" class="abde btn" title="Ask For Feedback" id="btnAsk" data-id="@item.NominationID" data-type="@item.AwardType" data-nom="@item.Nomenees">Ask</button>
+                       
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<div id="partialModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-center modal-title" id="nomDtl">Nomination Detail</h3>
+                <h3 class="text-center modal-title" id="askFdb">Send a mail for feedback</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+    function close() {
+        alert("hi");
+    }
+    $('.abcd').click(function () {
+        $("#askFdb").hide();
+        $("#nomDtl").show();
+        //alert($(this).data('id'));
+                $.ajax({
+                    url: "@Url.Action("JuryDetails","Home")",
+                    type: "Post",
+                    data: { nominationId: $(this).data('id') },
+                    success: function (response) {
+                         $("#partialModal").find(".modal-body").html(response);
+                         $("#partialModal").modal('show');
+                        //$("#partialModal").show();
+
+                    },
+                    error: function (xrh) {
+                    }
+                });
+
+    });
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+    //Saurabh Kumar Date- 19/05/2023
+    $('.abde').click(function () {
+        $("#nomDtl").hide();
+        $("#askFdb").show();
+        //alert($(this).data('id'));
+        $.ajax({
+            url: "@Url.Action("JuryFeedback","Home")",
+            type: "Post",
+            data: { nominationId: $(this).data('id'), awardTyp: $(this).data('type'), nominee: $(this).data('nom') },
+            success: function (response) {
+                $("#partialModal").find(".modal-body").html(response);
+                $("#partialModal").modal('show');
+                //$("#partialModal").show();
+
+            },
+            error: function (xrh) {
+            }
+        });
+    });
+</script>

@@ -1,0 +1,31 @@
+﻿@model RAFE.Models.GiveFeedBack
+
+<table class="table table-bordered table-responsive" id="tblAwards">
+    <thead>
+        <tr>
+            <th>Nomination ID</th>
+            <th>Award Year</th>
+            @*<th>Award Category</th>
+            <th style="width: 80px !important;">Award Type</th>
+            <th>Function</th>
+            <th style="width: 120px !important;">Nominated By</th>
+            <th width="20%">Nominee</th>
+            <th>Status</th>
+            <th>Action</th>*@
+        </tr>
+    </thead>
+    <tbody>
+        
+            
+            @foreach (var item in Model.GiveFeedBackList)
+            {
+                <tr>
+                    <td>@item.NominationId</td>
+                    <td>@item.awardtypeid</td>
+                </tr>
+            }
+
+        
+    </tbody>
+</table>
+

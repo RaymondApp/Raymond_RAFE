@@ -1,0 +1,136 @@
+﻿@model RAFE.Models.AwardModel
+@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<style>
+    .heading {
+        text-align: center;
+        color: white;
+    }
+
+    .form-text {
+        color: white;
+    }
+</style>
+<h2 class="heading">Award Type Committee Mapping</h2>
+<br />
+<div class="container">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="col-lg-3 col-md-3 col-sm-4">
+            <label class="form-text" for="membername">Committee Member Name</label>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="form-group">
+                @Html.DropDownListFor(m => m.EmpName, new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee", new { style = "width: 100%;", id = "empName" });
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="col-lg-3 col-md-3 col-sm-4">
+            <label class="form-text">Award Category </label>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            @if (Model.AwardCategoryList.Count > 0)
+            {
+                for (int i = 0; i < Model.AwardCategoryList.Count; i++)
+                {
+                    <div class="col-lg-4 col-md-4 col-sm-4 no-padding">
+                        <label class="form_text" id="lbl_award_cat_@Model.AwardCategoryList[i].AwardCategoryId" for="rbAward_@Model.AwardCategoryList[i].AwardCategoryId">
+                            <input type="radio" value="@Model.AwardCategoryList[i].AwardCategoryId" name="AwardCategory" id="rbAward_@Model.AwardCategoryList[i].AwardCategoryId" @if (Model.NominationID == 0 && i == 0) { <text> checked="checked" </text>  } else if (Model.AwardCategory == Model.AwardCategoryList[i].AwardCategoryId) { <text> checked="checked" </text> } />
+                            <img width="85" id="img_award_cat_@Model.AwardCategoryList[i].AwardCategoryId" src="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()Content/img/award_catnew_@Model.AwardCategoryList[i].AwardCategoryId-.png">
+                        </label>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="col-lg-3 col-md-3 col-sm-4">
+            <label class="form-text">Award Type </label>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="form-group">
+                @Html.DropDownListFor(m => Model.AwardType, new SelectList(ViewBag.AwardsType, "AwardTypeID", "AwardType"), "--Select type--", new { style = "width: 100%;", required = "required" })
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="URL" value="@Url.Action("getawarddata", "home")" />
+</div>
+@*<div class="container-fluid" style="background-color:white"">
+    <table class="table">
+        <tr>
+            <th style="text-align:center">Member Name</th>
+            <th style="text-align:center">Email</th>
+            <th style="text-align:center">Award Name</th>
+            <th>Status</th>
+            <th style="text-align:center">Action</th>
+        </tr>
+        @foreach(var item in Model)
+        {
+        <tr>
+            <td style="text-align:center">
+                @Html.DisplayFor(modelItem => item.AwardCommitteeMember)
+            </td>
+            <td style="text-align:center">
+                @Html.DisplayFor(modelItem => item.EmailId)
+            </td>
+            <td style="text-align:center">
+                @Html.DropDownList("value", new SelectList(ViewBag.AwardNameView, "value", "text"), "--Select--");
+            </td>
+            <input type="hidden" value="@item.Id" />
+            <td>
+            <td class="text-center" style="text-align:center">
+                @if (item.isActive == 1)
+                {
+                    <button class="btn" id="btn_@item.Id" onclick="changeStatus(@item.Id,'Active')">Active</button>
+                    <input id="txt_@item.Id" type="hidden" value="Active" />
+                }
+                else
+                {
+                    <button class="btn" id="btn_@item.Id" onclick="changeStatus(@item.Id,'Deactive')">Deactive</button>
+                    <input id="txt_@item.Id" type="hidden" value="Deactive" />
+                }
+            </td>
+        </tr>
+        }
+    </table>
+</div>*@
+<script>
+    function changeStatus(ID) {
+      
+        var counter = 0;
+        if ($('#txt_' + ID).val() == "Deactive") {
+            counter = 1;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ChangeMemberStatus", "Home")',
+            contentType: "application/json; charset=utf-8",
+            data: '{"id":"' + ID + '","Counter":"' + counter + '"}', 
+               // { id: ID, Counter: counter },            
+            success: function (response) {
+                if (response == "1") {
+                    if ($('#txt_' + ID).val() == "Active") {
+                        $('#txt_' + ID).val("Deactive");
+                        $('#btn_' + ID).val("Deactive");
+                        $('#btn_' + ID).text("Deactive");
+                    }
+                    else {
+                        $('#txt_' + ID).val("Active");
+                        $('#btn_' + ID).val("Active");
+                        $('#btn_' + ID).text("Active");
+                    }
+                    alert("Record Updated Successfully");
+                }
+                else {
+                    alert("Record Not Updated");
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
+            }
+        });  
+
+    };
+</script>

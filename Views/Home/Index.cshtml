@@ -1,0 +1,65 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Raymond Award For Excellence</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryAjaxUnobtrusive")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/BasicJS")
+</head>
+
+
+<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
+<body class="hold-transition skin-blue layout-top-nav">
+    <div class="wrapper">
+        <!-- Full Width Column -->
+        <div class="content-wrapper" style="background-color:black">
+            <div class="container" style="width:200%">
+                  <img src="~/Content/img/Website cover_dark.jpg" id="homeImg" class="img-responsive" />
+                @if (ViewBag.NominationActive)
+                {
+                    <a href="@Url.Action("NominationForm", "home")" class="btn new-centered"><b>NOMINATION FORM</b></a>
+                }
+                else
+                {
+                    <center> <a href="@Url.Action("AllNomination", "home")" class="new-centered btn"><b>All Nominations</b></a></center>
+                }
+                <input type="hidden" id="mobileImg" value="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/Content/img/Website cover_dark_Mobile.jpg" />
+                <input type="hidden" id="desktopImg" value="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/Content/img/Website cover_dark.jpg" />
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="container">
+                <strong>Copyright &copy; 2023-2024</strong> All rights
+                reserved.
+            </div>
+            <!-- /.container -->
+        </footer>
+    </div>
+    <script>
+        $(function () {
+            if (window.matchMedia("(max-width: 767px)").matches) {
+                // The viewport is less than 768 pixels wide
+                $("#homeImg").attr("src", $("#mobileImg").val());
+            } else {
+                // The viewport is at least 768 pixels wide
+                $("#homeImg").attr("src", $("#desktopImg").val());
+            }
+        });
+    </script>
+</body>
+</html>
+

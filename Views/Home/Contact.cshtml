@@ -1,0 +1,339 @@
+﻿@model RAFE.Models.AwardModel
+
+@{
+    ViewBag.Title = "Prism Award Nomination Form";
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Nomination Form
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("index", "home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Nomination Form</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <form method="post">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="no-print">
+                    <div class="callout callout-info" style="margin-bottom: 0!important;">
+                        <h4>Nominator Detail</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="col-md-3 col-sm-3">
+                    <label>Name</label>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <label class="label-box">
+                        Mohd Sajid Qureshi
+                    </label>
+                    @Html.HiddenFor(m => Model.Nominator)
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="col-md-3 col-sm-3">
+                    <label>EmployeeID</label>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <label class="label-box">
+                        123456
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="col-md-3 col-sm-3">
+                    <label>Function</label>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <label class="label-box">
+                        IT
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="col-md-3 col-sm-3">
+                    <label>Mobile No</label>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <label class="label-box">
+                        9887814417
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="col-md-3 col-sm-3">
+                    <label>EmailID</label>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <label class="label-box">
+                        Mohd.qureshi@@Raymond.in
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="col-md-3 col-sm-3">
+                    <label>Designation</label>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <label class="label-box">
+                        Web Developer
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="col-md-3 col-sm-3">
+                    <label>Year</label>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <label class="label-box">
+                        2018
+                    </label>
+                    @Html.HiddenFor(m => Model.AwardYear)
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="col-md-3 col-sm-3">
+                    <label>Quarter</label>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <label class="label-box">
+                        2018 - Q4
+                    </label>
+                    @Html.HiddenFor(m => Model.AwardQuarter)
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="col-md-3 col-sm-3">
+                    <label>Bussiness</label>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <label class="label-box">
+                        Engineering
+                    </label>
+                </div>
+            </div>
+
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="no-print">
+                    <div class="callout callout-info" style="margin-bottom: 0!important;">
+                        <h4>Award Detail</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @*<div class="col-lg-1 col-md-1">
+
+                </div>*@
+            <div class="col-lg-10 col-md-10 col-sm-12">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-lg-2 col-md-3 col-sm-4">
+                        <label>Award For</label>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <label>
+                                @Html.RadioButtonFor(m => m.AwardFor, "1", new { @id = "rbAwardIndivisual", @checked = "checked" }) Indivisual
+                                @*<input type="radio" value="1" name="AwardFor" id="rbAwardIndivisual" checked="checked" /> Indivisual*@
+                            </label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <label>
+                                @Html.RadioButtonFor(m => m.AwardFor, "0", new { @id = "rbAwardTeam" }) Team
+                                @*<input type="radio" value="0" name="AwardFor" id="rbAwardTeam" /> Team*@
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-lg-2 col-md-3 col-sm-4">
+                        <label>Award Type</label>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => Model.AwardType, new SelectList(ViewBag.AwardsType, "AwardID", "AwardName"), "--Select--", new { @class = "form-control select2", style = "width: 100%;", required = "required" })
+                        </div>
+                    </div>
+                </div>
+                @if (Model.EmployeeList.Count > 0)
+                {
+                    for (int i = 1; i <= Model.EmployeeList.Count; i++)
+                    {
+                        <div class="col-lg-12 col-md-12 col-sm-12" id="divEmp_@i">
+                            <div class="col-lg-2 col-md-3 col-sm-12">
+                                <label>Employee</label>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                @Html.DropDownListFor(m => Model.EmployeeList[i - 1].EmployeeName, new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select--", new { id = "ddlemployee" + i.ToString(), @class = "form-control select2", style = "width: 100%;", required = "required" })
+
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <input type="file" class="form-control" name="flemp1" onchange="readImage(this, 'imgemp1')" accept="image/*" onclick="removeImage('imgemp1')" />
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <img id="imgemp1" class="responsive" width="150" />
+                            </div>
+                        </div>
+                    }
+
+                }
+
+
+
+
+                <div class="col-lg-12 col-md-12 col-sm-12" id="divEmp2" style="display:none">
+                    <div class="col-lg-2 col-md-3 col-sm-12">
+                        <label>Employee</label>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <select name="employee2" id="ddlemployee2" class="form-control ddlemp" onchange="checkSameEmployee(this)" style="width: 100%;">
+                            <option value="">select</option>
+                            <option value="Dipendra">Dipendra</option>
+                            <option value="Gajanan">Gajanan</option>
+                            <option value="Minar">Minar</option>
+                            <option value="Kishor">Kishor</option>
+                            <option value="Neha">Neha</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <input type="file" class="form-control" onchange="readImage(this, 'imgemp2')" accept="image/*" onclick="removeImage('imgemp2')" name="flemp2" />
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <img id="imgemp2" class="responsive" width="150" />
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12" id="divEmp3" style="display:none">
+                    <div class="col-lg-2 col-md-3 col-sm-12">
+                        <label>Employee</label>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <select name="employee3" id="ddlemployee3" class="form-control ddlemp" onchange="checkSameEmployee(this)" style="width: 100%;">
+                            <option value="">select</option>
+                            <option value="Dipendra">Dipendra</option>
+                            <option value="Gajanan">Gajanan</option>
+                            <option value="Minar">Minar</option>
+                            <option value="Kishor">Kishor</option>
+                            <option value="Neha">Neha</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <input type="file" class="form-control" onchange="readImage(this, 'imgemp3')" accept="image/*" onclick="removeImage('imgemp3')" name="flemp3" />
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <img id="imgemp3" class="responsive" width="150" />
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12" id="divEmp4" style="display:none">
+                    <div class="col-lg-2 col-md-3 col-sm-12">
+                        <label>Employee</label>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <select name="employee4" id="ddlemployee4" class="form-control ddlemp" onchange="checkSameEmployee(this)" style="width: 100%;">
+                            <option value="">select</option>
+                            <option value="Dipendra">Dipendra</option>
+                            <option value="Gajanan">Gajanan</option>
+                            <option value="Minar">Minar</option>
+                            <option value="Kishor">Kishor</option>
+                            <option value="Neha">Neha</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <input type="file" class="form-control" onchange="readImage(this, 'imgemp4')" accept="image/*" onclick="removeImage('imgemp4')" name="flemp4" />
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <img id="imgemp4" class="responsive" width="150" />
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12" id="divEmp5" style="display:none">
+                    <div class="col-lg-2 col-md-3 col-sm-12">
+                        <label>Employee</label>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <select name="employee5" id="ddlemployee5" class="form-control ddlemp" style="width: 100%;" onchange="checkSameEmployee(this)">
+                            <option value="">select</option>
+                            <option value="Dipendra">Dipendra</option>
+                            <option value="Gajanan">Gajanan</option>
+                            <option value="Minar">Minar</option>
+                            <option value="Kishor">Kishor</option>
+                            <option value="Neha">Neha</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <input type="file" class="form-control" onchange="readImage(this, 'imgemp5')" accept="image/*" onclick="removeImage('imgemp5')" name="flemp5" />
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <img id="imgemp5" class="responsive" width="150" />
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12" id="divEmp6" style="display:none">
+                    <div class="col-lg-2 col-md-3 col-sm-12">
+                        <label>Employee</label>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <select name="employee6" id="ddlemployee6" class="form-control ddlemp" style="width: 100%;" onchange="checkSameEmployee(this)">
+                            <option value="">select</option>
+                            <option value="Dipendra">Dipendra</option>
+                            <option value="Gajanan">Gajanan</option>
+                            <option value="Minar">Minar</option>
+                            <option value="Kishor">Kishor</option>
+                            <option value="Neha">Neha</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <input type="file" class="form-control" onchange="readImage(this, 'imgemp6')" accept="image/*" onclick="removeImage('imgemp6')" name="flemp6" id="flemp6" />
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <img id="imgemp6" class="responsive" width="150" />
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12" id="divEmp7">
+                    <div class="col-lg-2 col-md-3 col-sm-12">
+
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <button type="button" title="Add more" id="btnAddEmp" class="btn btn-success" onclick="ShowEmpSection()" style="display:none">Add More</button>
+                        <button type="button" title="Add more" id="btnRemoveEmp" class="btn btn-danger" onclick="HideEmpSection()" style="display:none">Remove</button>
+                        <input type="hidden" id="hdnEmpCount" name="hdnEmpCount" value="1" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-1 col-md-1">
+
+            </div>
+        </div>
+
+        @{Html.RenderAction("GetAwardSections", "common", new { award = "123" });}
+        <hr />
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <center>
+                    <button type="submit" title="Add more" id="btnSaveEmp" class="btn btn-success">Save</button>
+                </center>
+            </div>
+        </div>
+    </form>
+</section>

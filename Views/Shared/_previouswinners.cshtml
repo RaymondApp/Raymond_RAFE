@@ -1,0 +1,52 @@
+﻿@model RAFE.Models.AwardMaster
+<style>
+    .form_text {
+        color: white;
+    }
+</style>
+
+<table class="table table-bordered table-responsive" id="tblwinners">
+    <thead>
+        <tr>
+            <th style="text-align:center">
+                Award Category
+            </th>
+            <th style="text-align:center">
+                Award Name
+            </th>
+            <th style="text-align:center">
+                Individual Name
+            </th>
+            <th style="text-align:center">
+                Business
+            </th>
+            <th style="text-align:center">
+                Award Year
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PreviousYearWinner)
+        {
+            <tr>
+                <td style="text-align:center">
+                    @Html.DisplayFor(m => item.AwardCategory)
+                </td>
+                <td style="text-align:center">
+                    @Html.DisplayFor(m => item.AwardName)
+                </td>
+                <td style="text-align:center">
+                    @Html.DisplayFor(m => item.IndividualName)
+                </td>
+                <td style="text-align:center">
+                    @Html.DisplayFor(m => item.Business)
+                </td>
+                <td style="text-align:center">
+                    @Html.DisplayFor(m => item.AwardYear)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

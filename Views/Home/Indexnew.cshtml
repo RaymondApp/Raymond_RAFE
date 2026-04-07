@@ -1,0 +1,47 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Indexnew</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryAjaxUnobtrusive")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/BasicJS")
+</head>
+
+<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
+<body class="hold-transition skin-blue layout-top-nav">
+    <div class="wrapper">
+        <!-- Full Width Column -->
+        <div class="content-wrapper">
+            <div class="container" style="width:100%">
+
+                <center>  <img src="~/Content/img/2237060@2x_mm.png" class="img-responsive" /></center>
+                @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() != "EMPLOYEE" && RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToLower() != "consultant")
+                {
+                    <center> <a href="@Url.Action("NominationForm","home")" class="new-centered btn">Nomination forms</a></center>
+                }
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="container">               
+                <strong>Copyright &copy; 2023-2024</strong> All rights
+                reserved.
+            </div>
+            <!-- /.container -->
+        </footer>
+    </div>
+</body>
+</html>

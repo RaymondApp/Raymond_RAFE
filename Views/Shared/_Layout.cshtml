@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RAFE</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryAjaxUnobtrusive")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scriptsRef", required: false)
+    @Scripts.Render("~/bundles/BasicJS")
+    <script type="text/javascript">
+        $(function () {
+            $(document).ajaxError(function (e, xhr, settings) {
+                if (xhr.status == 401) {
+                    location = '@Url.Action( "index", "account" )';
+                }
+                else
+                    if (xhr.status == 500) {
+                        alert("Insernal server error occured. Contact administrator for support");
+                    }
+            });
+        });
+
+        function logOff() {
+            $.ajax({
+                url: "@Url.Action("Logoff", "Login")",
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                }
+            })
+        }
+        function popitup(url, windowName) {
+            newwindow = window.open(url, windowName, 'height=600,width=600');
+            if (window.focus) { newwindow.focus() }
+            return false;
+        }
+        $(document).ready(function () {
+           
+
+            
+            /*Start - Added for datatable case insensitive client side search*/
+            $.expr[":"].ContainsNC = $.expr.createPseudo(function (arg) {
+                return function (elem) {
+                    return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+                };
+            })
+
+            $('#hyp_logoff').on('click', function (e) {
+                $('.loading').show();
+                e.preventDefault();
+                $("#logoff_form").submit();
+            });
+            /*End - Added for datatable case insensitive client side search*/
+        });
+
+
+        function HighlightMenu(MenuId) {
+            $('#sidebar li').removeClass('active');
+            $('#sidebar li').parent().parent().removeClass('active menu-open');
+            // Loop all menu items
+            $('#sidebar li').each(function () {
+                var liMenuId = $(this).find('a').attr('menuid');
+                if (liMenuId != undefined) {
+                    if (liMenuId == MenuId) {
+                        // Add active class
+                        $(this).parent().parent().removeClass('menu').addClass('active menu-open');
+                        $(this).addClass('active');
+                        $(this).find('i').toggleClass('fa-circle-o fa-dot-circle-o');
+                        //$('body').addClass("sidebar-collapse");
+                        return false;
+                    }
+                }
+            });
+        }
+
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+    </script>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <div class="loading">Loading&#8230;</div>
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini" style="font-size: 12px !important;"><b>RAFE</b></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg">
+                    @*<img src="~/Content/img/Raymond Logo Hires RGB.png" />*@
+                    @*200*50 image size*@
+                    <img src="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()content\img\PRISM_Logo_Final_200x50.jpg" width="230">
+                </span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            @{                               
+                                string Uname = RAFE.Utility.WebCommon.GetProfileName(Request.Cookies["UserInfo"]);
+                            }
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" role="button">
+                                <img style="height:18px;" src="~/Content/img/Profile-icon.png" />
+                             
+                                <span class="hidden-xs p_name">@Uname</span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#" data-toggle="modal" data-target="#chngPassModal"><i class="fa fa-angle-left"></i> Change User</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "MANAGER")
+                            {
+                                <a href="#" title="Help?" style="cursor: help;padding:10px 0 0 0" id="hyp_manual" onclick="popitup('@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()ProcessNote/USER MANUAL FOR REPORTING MANAGERS.pdf','User Manual')"><img src="~/Content/img/help_11.png"/> </a>
+                            }
+                            else if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "HOD")
+                            {
+                                <a href="#" title="Help?" style="cursor: help;padding:10px 0 0 0" id="hyp_manual" onclick="popitup('@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()ProcessNote/USER MANUAL FOR HODs.pdf','User Manual')"><img src="~/Content/img/help_11.png"/> </a>
+                            }
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Sidebar Menu -->
+        @{      Html.RenderAction("GetNevigationMenu", "common");}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2023-2024 </strong> All rights reserved.
+        </footer>
+        @Html.Partial("_ChangePassword")
+        <div class='control-sidebar-bg'></div>
+        <form action="@Url.Action("logoff","Account")" id="logoff_form" method="post">
+            @Html.AntiForgeryToken()
+        </form>
+
+    </div><!-- ./wrapper -->
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

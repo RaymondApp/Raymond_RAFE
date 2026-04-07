@@ -1,0 +1,1563 @@
+﻿@model RAFE.Models.AwardModel
+
+@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.Title = "RAFE Nomination Form";
+    string isCXO = "False";
+    if (Request.QueryString["iscxo"] != null)
+    {
+        isCXO = Request.QueryString["iscxo"].ToString();
+    }
+
+}
+<style>
+    label,.form_text{
+        color:white;
+    }
+    .text-danger{
+        color:black;
+    }
+</style>
+
+
+<!-- Content Header (Page header) -->
+<!-- Main content -->
+@if (Model.validUser)
+{
+    @Html.HiddenFor(m => m.NominationID, new { @id = "hdNominationID" })
+    <section class="content">
+        <form method="post" enctype="multipart/form-data" id="form_nomination" action="@Url.Action("NominationForm", "Home", new { iscxo = isCXO })">
+            <div class="row">
+                <div class="alert-status" style="display:none">
+                    @if (TempData["status"] != null)
+                    {
+                        if (TempData["status"].ToString() == "1")
+                        {
+                            <label class="lbl-success">@TempData["message"].ToString() </label>
+                        }
+                        else
+                        {
+                            <label class="lbl-error">@TempData["message"].ToString() </label>
+                        }
+                    }
+                </div>
+                @*@Html.ValidationSummary(false)*@
+                <div class="row collapse">
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="col-md-3 col-sm-3">
+                            <label>Name</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <label class="label-box">
+                                @Model.NominatorDetails.Name
+                            </label>
+                            @Html.HiddenFor(m => Model.NominatorDetails.SamAccountName)
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="col-md-3 col-sm-3">
+                            <label>EmployeeID</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <label class="label-box">
+                                @Model.NominatorDetails.Description
+                            </label>
+                            @Html.HiddenFor(m => Model.NominatorDetails.Description)
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="col-md-3 col-sm-3">
+                            <label>Function</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <label class="label-box">
+                                @Model.NominatorDetails.Department
+                            </label>
+                            @Html.HiddenFor(m => Model.NominatorDetails.Department)
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row collapse">
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="col-md-3 col-sm-3">
+                            <label>Mobile No</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <label class="label-box">
+                                @Model.NominatorDetails.OfficePhone
+                            </label>
+                            @Html.HiddenFor(m => Model.NominatorDetails.OfficePhone)
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="col-md-3 col-sm-3">
+                            <label>EmailID</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <label class="label-box">
+                                @Model.NominatorDetails.EmailAddress
+                            </label>
+                            @Html.HiddenFor(m => Model.NominatorDetails.EmailAddress)
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="col-md-3 col-sm-3">
+                            <label>Designation</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <label class="label-box">
+                                @Model.NominatorDetails.Title
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row collapse">
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="col-md-3 col-sm-3">
+                            <label>Year</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <div class="form-group">
+                                @*@Html.DropDownListFor(m => Model.AwardYear, new SelectList(Model.AwardYearList), new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(m => Model.AwardYear, "", new { @class = "text-danger  " })*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12" style="display:none">
+                        <div class="col-md-3 col-sm-3">
+                            <label>Biannual</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <div class="form-group dropdown_text">
+                                @Html.DropDownListFor(m => Model.AwardQuarter, new SelectList(Model.AwardQuarterList), new { @class = "form-control dropdown_text", required = "required" })
+                                @Html.ValidationMessageFor(m => Model.AwardQuarter, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="col-md-3 col-sm-3">
+                            <label>Business</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <label class="label-box">
+                                @Model.NominatorDetails.Company
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if ((Model.AwardYearList != null && Model.AwardYearList.Count > 0) || Model.isSubmitted == 1 || Model.isSubmitted == -1)
+            {
+                string otherClass = "collapse";
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <label class="form_text">All fields marked as (<span style="color:red">*</span>) are mandatory </label>
+                            </div>
+                        </div>
+                        <div class="no-print">
+                            <div class="callout raf-callout-info callout-info" style="margin-bottom: 5px!important;">
+                                @* <h4>Award Detail</h4>*@<h4> &nbsp; </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-10">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <label>Award Category </label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                @if (Model.AwardCategoryList.Count > 0)
+                                {
+                                    for (int i = 0; i < Model.AwardCategoryList.Count; i++)
+                                    {
+                                        <div class="col-lg-4 col-md-4 col-sm-4 no-padding">
+                                            <label class="form_text" id="lbl_award_cat_@Model.AwardCategoryList[i].AwardCategoryId" for="rbAward_@Model.AwardCategoryList[i].AwardCategoryId">
+                                                <input type="radio" value="@Model.AwardCategoryList[i].AwardCategoryId" name="AwardCategory" id="rbAward_@Model.AwardCategoryList[i].AwardCategoryId" @if (Model.NominationID == 0 && i == 0) { <text> checked="checked" </text>  } else if (Model.AwardCategory == Model.AwardCategoryList[i].AwardCategoryId) { <text> checked="checked" </text> } />
+                                                <img width="85" id="img_award_cat_@Model.AwardCategoryList[i].AwardCategoryId" src="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/Content/img/award_catnew_@Model.AwardCategoryList[i].AwardCategoryId-.png">
+                                            </label>
+                                        </div>
+
+                                    }
+
+                                }
+                            </div>
+                            @*<div id="profile">
+                                <input type="button" id="combined_profiler" value=" . . . "/>
+                            </div>*@ 
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 collapse">
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <label class="form_text">Award Year</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => Model.AwardYear, new SelectList(Model.AwardYearList), new { @id = "year", @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(m => Model.AwardYear, "", new { @class = "text-danger  " })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <label class="form_text">Award Type <span style="color:red">*</span></label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => Model.AwardType, new SelectList(ViewBag.AwardsType, "AwardTypeID", "AwardType"), "--Select type--", new { @class = "form-control select2", style = "width: 100%;", required = "required" })
+                                    @Html.ValidationMessageFor(m => Model.AwardType, "", new {@class = "text-danger" , @style = "color:white" })
+                                </div>
+                            </div>
+                            <a id="hyp_processNote" title="Award Criteria" style="text-decoration: underline;color: #ffffff;text-transform: capitalize;cursor:pointer">
+                                <span class="fa fa-info-circle fa-lg"></span>&nbsp;<b>Award Criteria</b>
+                            </a>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_1">
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <label class="form_text">Enter Employee Name <span style="color:red">*</span></label>
+                            </div>
+                            <input type="button" id="profile1" value=". . ." />
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => Model.EmployeeID1,
+                 new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--",
+                 new
+                 {
+                     id = "ddlemployee1",
+                     @class = "form-control select2 cboEmployee",
+                     style = "width: 100%;",
+                     required = "required",
+                     onchange = "checkSameEmployee(this)",
+                     dataid = "1",
+                     dataotherid = "#txtOtheremployee1" @*Shraddha: added attr dataotherid & class  cboEmployee*@
+     })
+                                    @Html.ValidationMessageFor(m => Model.EmployeeID1, "", new { @class = "text-danger" , @style = "color:white;"})
+                                </div>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(Model.EmployeeID1) && Model.EmployeeID1.ToString().ToLower() == "other")
+                            {
+                                otherClass = "";
+                            }
+                            else
+                            {
+                                otherClass = "collapse";
+                            }
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => Model.Other_EmployeeID1,
+                 new
+                 {
+                     type = "input",
+                     @class = "form-control user-autocomplete " + otherClass,
+                     required = "required",
+                     id = "txtOtheremployee1",
+                     onchange = "checkSameEmployee(this)"
+                 })
+                                    @Html.ValidationMessageFor(m => Model.Other_EmployeeID1, "",
+                 new { @class = "text-danger otherEmpError", dataerrorfor = "txtOtheremployee1" })
+                                </div>
+
+                            </div>@*Shraddha*@
+
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 award-history" id="div_award_history1">
+                                @if (Model.NominationID != 0)
+                                {
+                                    <button type="button" class="btn btn-info cls-award-history" id="btn_show_award1" data-id="@Model.EmployeeID1" data-place="div_award_history1">Award History</button>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_2">
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <label>Enter Employee Name <span style="color:red">*</span></label>
+                            </div>
+                            <input type="button" id="profile2" value=". . ." />
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @if (!string.IsNullOrEmpty(Model.EmployeeID2) && Model.EmployeeID2.ToString().ToLower() == "other")
+                                    {
+                                        otherClass = "";
+                                    }
+                                    else
+                                    {
+                                        otherClass = "collapse";
+                                    }
+                                    @Html.DropDownListFor(m => Model.EmployeeID2,
+                 new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--",
+                 new
+                 {
+                     id = "ddlemployee2",
+                     @class = "form-control select2 cboEmployee",
+                     style = "width: 100%;",
+                     required = "required",
+                     onchange = "checkSameEmployee(this)",
+                     dataotherid = "#txtOtheremployee2" @*Shraddha: added attr dataotherid & class cboEmployee*@
+     })
+                                    @Html.ValidationMessageFor(m => Model.EmployeeID2, "", new { @class = "text-danger  ", @style = "color:white;" })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => Model.Other_EmployeeID2,
+                 new
+                 {
+                     type = "input",
+                     @class = "form-control user-autocomplete " + otherClass,
+                     id = "txtOtheremployee2",
+                     onchange = "checkSameEmployee(this)"
+                 })
+                                    @Html.ValidationMessageFor(m => Model.Other_EmployeeID2, "",
+                 new { @class = "text-danger otherEmpError", dataerrorfor = "txtOtheremployee2" })
+                                </div>
+                            </div>@*Shraddha*@
+
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 award-history" id="div_award_history2">
+                                @if (Model.NominationID != 0)
+                                {
+                                    <button type="button" class="btn btn-info cls-award-history" id="btn_show_award2" data-id="@Model.EmployeeID2" data-place="div_award_history2">Award History</button>
+                                }
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_3">
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <label>Enter Employee Name <span style="color:red">*</span></label>
+                            </div>
+                            <input type="button" id="profile3" value=". . ." />
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @if (!string.IsNullOrEmpty(Model.EmployeeID3) && Model.EmployeeID3.ToString().ToLower() == "other")
+                                    {
+                                        otherClass = "";
+                                    }
+                                    else
+                                    {
+                                        otherClass = "collapse";
+                                    }
+                                    @Html.DropDownListFor(m => Model.EmployeeID3,
+                 new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--",
+                 new
+                 {
+                     id = "ddlemployee3",
+                     @class = "form-control select2 cboEmployee",
+                     style = "width: 100%;",
+                     required = "required",
+                     onchange = "checkSameEmployee(this)",
+                     dataotherid = "#txtOtheremployee3" @*Shraddha: added attr dataotherid & class cboEmployee*@
+     })
+                                    @Html.ValidationMessageFor(m => Model.EmployeeID3, "", new { @class = "text-danger  ", @style = "color:white;" })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => Model.Other_EmployeeID3,
+                 new
+                 {
+                     type = "input",
+                     @class = "form-control user-autocomplete " + otherClass,
+                     id = "txtOtheremployee3",
+                     onchange = "checkSameEmployee(this)"
+                 })
+                                    @Html.ValidationMessageFor(m => Model.Other_EmployeeID3, "",
+                 new { @class = "text-danger otherEmpError", dataerrorfor = "txtOtheremployee3" })
+                                </div>
+                            </div>@*Shraddha*@
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 award-history" id="div_award_history3">
+                                @if (Model.NominationID != 0)
+                                {
+                                    <button type="button" class="btn btn-info cls-award-history" id="btn_show_award3" data-id="@Model.EmployeeID3" data-place="div_award_history3">Award History</button>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_4">
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <label>Enter Employee Name <span style="color:red">*</span></label>
+                            </div>
+                            <input type="button" id="profile4" value=". . ." />
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @if (!string.IsNullOrEmpty(Model.EmployeeID4) && Model.EmployeeID4.ToString().ToLower() == "other")
+                                    {
+                                        otherClass = "";
+                                    }
+                                    else
+                                    {
+                                        otherClass = "collapse";
+                                    }
+                                    @Html.DropDownListFor(m => Model.EmployeeID4,
+                 new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--",
+                 new
+                 {
+                     id = "ddlemployee4",
+                     @class = "form-control select2 cboEmployee",
+                     style = "width: 100%;",
+                     required = "required",
+                     onchange = "checkSameEmployee(this)",
+                     dataotherid = "#txtOtheremployee4" @*Shraddha: added attr dataotherid & class cboEmployee*@
+     })
+                                    @Html.ValidationMessageFor(m => Model.EmployeeID4, "", new { @class = "text-danger  ", @style = "color:white;" })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => Model.Other_EmployeeID4,
+                 new
+                 {
+                     type = "input",
+                     @class = "form-control user-autocomplete " + otherClass,
+                     id = "txtOtheremployee4",
+                     onchange = "checkSameEmployee(this)"
+                 })
+
+                                    @Html.ValidationMessageFor(m => Model.Other_EmployeeID4, "",
+                 new { @class = "text-danger otherEmpError", dataerrorfor = "txtOtheremployee4" })
+                                </div>
+                            </div>@*Shraddha*@
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 award-history" id="div_award_history4">
+                                @if (Model.NominationID != 0)
+                                {
+                                    <button type="button" class="btn btn-info cls-award-history" id="btn_show_award4" data-id="@Model.EmployeeID4" data-place="div_award_history4">Award History</button>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_5">
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <label>Enter Employee Name <span style="color:red">*</span></label>
+                            </div>
+                            <input type="button" id="profile5" value=". . ." />
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @if (!string.IsNullOrEmpty(Model.EmployeeID5) && Model.EmployeeID5.ToString().ToLower() == "other")
+                                    {
+                                        otherClass = "";
+                                    }
+                                    else
+                                    {
+                                        otherClass = "collapse";
+                                    }
+                                    @Html.DropDownListFor(m => Model.EmployeeID5,
+                 new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--",
+                 new
+                 {
+                     id = "ddlemployee5",
+                     @class = "form-control select2 cboEmployee",
+                     style = "width: 100%;",
+                     required = "required",
+                     onchange = "checkSameEmployee(this)",
+                     dataotherid = "#txtOtheremployee5" @*Shraddha: added attr dataotherid & class cboEmployee*@
+     })
+                                    @Html.ValidationMessageFor(m => Model.EmployeeID5, "", new { @class = "text-danger  ", @style = "color:white;" })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => Model.Other_EmployeeID5,
+                 new
+                 {
+                     type = "input",
+                     @class = "form-control user-autocomplete " + otherClass,
+                     id = "txtOtheremployee5",
+                     onchange = "checkSameEmployee(this)"
+                 })
+                                    @Html.ValidationMessageFor(m => Model.Other_EmployeeID5, "",
+                 new { @class = "text-danger otherEmpError", dataerrorfor = "txtOtheremployee5" })
+                                </div>
+                            </div>@*Shraddha*@
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 award-history" id="div_award_history5">
+                                @if (Model.NominationID != 0)
+                                {
+                                    <button type="button" class="btn btn-info cls-award-history" id="btn_show_award5" data-id="@Model.EmployeeID5" data-place="div_award_history5">Award History</button>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_6">
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <label>Enter Employee Name <span style="color:red">*</span></label>
+                            </div>
+                            <input type="button" id="profile6" value=". . ." />
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @if (!string.IsNullOrEmpty(Model.EmployeeID6) && Model.EmployeeID6.ToString().ToLower() == "other")
+                                    {
+                                        otherClass = "";
+                                    }
+                                    else
+                                    {
+                                        otherClass = "collapse";
+                                    }
+                                    @Html.DropDownListFor(m => Model.EmployeeID6,
+                 new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--",
+                 new
+                 {
+                     id = "ddlemployee6",
+                     @class = "form-control select2 cboEmployee",
+                     style = "width: 100%;",
+                     required = "required",
+                     onchange = "checkSameEmployee(this)",
+                     dataotherid = "#txtOtheremployee6" @*Shraddha: added attr dataotherid & class cboEmployee*@
+     })
+
+                                    @Html.ValidationMessageFor(m => Model.EmployeeID6, "", new { @class = "text-danger  ", @style = "color:white;" })
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => Model.Other_EmployeeID6,
+                 new
+                 {
+                     type = "input",
+                     @class = "form-control user-autocomplete " + otherClass,
+                     id = "txtOtheremployee6",
+                     onchange = "checkSameEmployee(this)"
+                 })
+                                    @Html.ValidationMessageFor(m => Model.Other_EmployeeID6, "",
+                 new { @class = "text-danger otherEmpError", dataerrorfor = "txtOtheremployee6" })
+                                </div>
+                            </div>@*Shraddha*@
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 award-history" id="div_award_history6">
+                                @if (Model.NominationID != 0)
+                                {
+                                    <button type="button" class="btn btn-info cls-award-history" id="btn_show_award6" data-id="@Model.EmployeeID6" data-place="div_award_history6">Award History</button>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_7">
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <label>Enter Employee Name <span style="color:red">*</span></label>
+                            </div>
+                            <input type="button" id="profile7" value=". . ." />
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @if (!string.IsNullOrEmpty(Model.EmployeeID7) && Model.EmployeeID7.ToString().ToLower() == "other")
+                                    {
+                                        otherClass = "";
+                                    }
+                                    else
+                                    {
+                                        otherClass = "collapse";
+                                    }
+                                    @Html.DropDownListFor(m => Model.EmployeeID7,
+                 new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--",
+                 new
+                 {
+                     id = "ddlemployee7",
+                     @class = "form-control select2 cboEmployee",
+                     style = "width: 100%;",
+                     required = "required",
+                     onchange = "checkSameEmployee(this)",
+                     dataotherid = "#txtOtheremployee7" @*Shraddha: added attr dataotherid & class cboEmployee*@
+     })
+
+                                    @Html.ValidationMessageFor(m => Model.EmployeeID7, "", new { @class = "text-danger  ", @style = "color:white;" })
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => Model.Other_EmployeeID7,
+                 new
+                 {
+                     type = "input",
+                     @class = "form-control user-autocomplete " + otherClass,
+                     id = "txtOtheremployee7",
+                     onchange = "checkSameEmployee(this)"
+                 })
+                                    @Html.ValidationMessageFor(m => Model.Other_EmployeeID7, "",
+                 new { @class = "text-danger otherEmpError", dataerrorfor = "txtOtheremployee7" })
+                                </div>
+                            </div>@*Shraddha*@
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 award-history" id="div_award_history7">
+                                @if (Model.NominationID != 0)
+                                {
+                                    <button type="button" class="btn btn-info cls-award-history" id="btn_show_award7" data-id="@Model.EmployeeID7" data-place="div_award_history7">Award History</button>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_8">
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <label>Enter Employee Name <span style="color:red">*</span></label>
+                            </div>
+                            <input type="button" id="profile8" value=". . ." />
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @if (!string.IsNullOrEmpty(Model.EmployeeID8) && Model.EmployeeID8.ToString().ToLower() == "other")
+                                    {
+                                        otherClass = "";
+                                    }
+                                    else
+                                    {
+                                        otherClass = "collapse";
+                                    }
+                                    @Html.DropDownListFor(m => Model.EmployeeID8,
+                 new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--",
+                 new
+                 {
+                     id = "ddlemployee8",
+                     @class = "form-control select2 cboEmployee",
+                     style = "width: 100%;",
+                     required = "required",
+                     onchange = "checkSameEmployee(this)",
+                     dataotherid = "#txtOtheremployee8" @*Shraddha: added attr dataotherid & class cboEmployee*@
+     })
+
+                                    @Html.ValidationMessageFor(m => Model.EmployeeID8, "", new { @class = "text-danger  ", @style = "color:white;" })
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => Model.Other_EmployeeID8,
+                 new
+                 {
+                     type = "input",
+                     @class = "form-control user-autocomplete " + otherClass,
+                     id = "txtOtheremployee8",
+                     onchange = "checkSameEmployee(this)"
+                 })
+                                    @Html.ValidationMessageFor(m => Model.Other_EmployeeID8, "",
+                 new { @class = "text-danger otherEmpError", dataerrorfor = "txtOtheremployee8" })
+                                </div>
+                            </div>@*Shraddha*@
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 award-history" id="div_award_history8">
+                                @if (Model.NominationID != 0)
+                                {
+                                    <button type="button" class="btn btn-info cls-award-history" id="btn_show_award8" data-id="@Model.EmployeeID8" data-place="div_award_history8">Award History</button>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_9">
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <input type="button" id="btnpopup" value=". . ." />
+                                <label>Enter Employee Name <span style="color:red">*</span></label>
+                            </div>
+                            <input type="button" id="profile9" value=". . ." />
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @if (!string.IsNullOrEmpty(Model.EmployeeID9) && Model.EmployeeID9.ToString().ToLower() == "other")
+                                    {
+                                        otherClass = "";
+                                    }
+                                    else
+                                    {
+                                        otherClass = "collapse";
+                                    }
+                                    @Html.DropDownListFor(m => Model.EmployeeID9,
+                 new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--",
+                 new
+                 {
+                     id = "ddlemployee9",
+                     @class = "form-control select2 cboEmployee",
+                     style = "width: 100%;",
+                     required = "required",
+                     onchange = "checkSameEmployee(this)",
+                     dataotherid = "#txtOtheremployee9" @*Shraddha: added attr dataotherid & class cboEmployee*@
+     })
+
+                                    @Html.ValidationMessageFor(m => Model.EmployeeID9, "", new { @class = "text-danger  ", @style = "color:white;" })
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => Model.Other_EmployeeID9,
+                 new
+                 {
+                     type = "input",
+                     @class = "form-control user-autocomplete " + otherClass,
+                     id = "txtOtheremployee9",
+                     onchange = "checkSameEmployee(this)"
+                 })
+                                    @Html.ValidationMessageFor(m => Model.Other_EmployeeID9, "",
+                 new { @class = "text-danger otherEmpError", dataerrorfor = "txtOtheremployee9" })
+                                </div>
+                            </div>@*Shraddha*@
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 award-history" id="div_award_history9">
+                                @if (Model.NominationID != 0)
+                                {
+                                    <button type="button" class="btn btn-info cls-award-history" id="btn_show_award9" data-id="@Model.EmployeeID9" data-place="div_award_history9">Award History</button>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_10">
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <label>Enter Employee Name <span style="color:red">*</span></label>
+                            </div>
+                            <input type="button" id="profile10" value=". . ." />
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @if (!string.IsNullOrEmpty(Model.EmployeeID10) && Model.EmployeeID10.ToString().ToLower() == "other")
+                                    {
+                                        otherClass = "";
+                                    }
+                                    else
+                                    {
+                                        otherClass = "collapse";
+                                    }
+                                    @Html.DropDownListFor(m => Model.EmployeeID10,
+                 new SelectList(Model.AllEmployeeList, "EmployeeID", "EmployeeName"), "--Select Employee--",
+                 new
+                 {
+                     id = "ddlemployee10",
+                     @class = "form-control select2 cboEmployee",
+                     style = "width: 100%;",
+                     required = "required",
+                     onchange = "checkSameEmployee(this)",
+                     dataotherid = "#txtOtheremployee10" @*Shraddha: added attr dataotherid & class cboEmployee*@
+     })
+
+                                    @Html.ValidationMessageFor(m => Model.EmployeeID10, "", new { @class = "text-danger  ", @style = "color:white;" })
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => Model.Other_EmployeeID10,
+                 new
+                 {
+                     type = "input",
+                     @class = "form-control user-autocomplete " + otherClass,
+                     id = "txtOtheremployee10",
+                     onchange = "checkSameEmployee(this)"
+                 })
+                                    @Html.ValidationMessageFor(m => Model.Other_EmployeeID10, "",
+                 new { @class = "text-danger otherEmpError", dataerrorfor = "txtOtheremployee10" })
+                                </div>
+                            </div>@*Shraddha*@
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 award-history" id="div_award_history10">
+                                @if (Model.NominationID != 0)
+                                {
+                                    <button type="button" class="btn btn-info cls-award-history" id="btn_show_award10" data-id="@Model.EmployeeID10" data-place="div_award_history10">Award History</button>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12" id="divEmp11">
+                            <div class="col-lg-2 col-md-3 col-sm-12">
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                            </div>
+                            <div class="col-lg-6 col-md-4 col-sm-12">
+                                <button type="button" title="Add more" id="btnAddEmp" class="btn btn-success" onclick="ShowEmpSection()" style="display:none">Add More</button>
+                                <button type="button" title="Add more" id="btnRemoveEmp" class="btn btn-danger" onclick="HideEmpSection()" style="display:none">Remove</button>
+                                @Html.HiddenFor(m => m.EmpCount, new { id = "hdnEmpCount" })
+                                @Html.HiddenFor(m => m.NominationID)
+                                @Html.HiddenFor(m => m.isSubmitted)
+                                @Html.HiddenFor(m => m.StatusID)
+                                @Html.HiddenFor(m => m.NominationLevel)
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4 col-md-4" style="margin-top:5px;">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                @Html.TextBoxFor(m => Model.EmployeeImage1, new { type = "file", onchange = "readImage(this, 'imgemp_1')", accept = "image/*", onclick = "removeImage('imgemp_1')", title = "Choose a cover picture", @class = "cover_pic" })
+                                <label for="EmployeeImage1" class="custom-file-upload" id="lbl_EmployeeImage1">
+                                    <img id="uploadvideo_1" class="responsive form_text" title="Individual/team photo (as applicable) of maximum 2 MB to be uploaded" width="85" src="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/Content/img/Photo Upload.png" />
+                                </label>
+                                <img id="selected_image" style="display:none;" class="responsive" width="50" src="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/Content/img/selected_1.png" />
+                                @Html.ValidationMessageFor(m => Model.EmployeeImage1, "", new { @class = "text-danger span-employeeimage" , @style = "color:white;" })
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                @Html.TextBoxFor(m => Model.videoFile, new { type = "file", accept = "video/*", title = "Choose a video file", @class = "cover_pic", onchange = "readVideo(this)" })
+                                <label for="videoFile" class="custom-file-upload" id="lbl_videoFile">
+                                    <img id="uploadVideo_1" class="responsive form_text"
+                                         title="Video byte of maximum 10 MB to be uploaded (please refer to guidelines for more information)"
+                                         width="70" height="60" src="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/Content/img/Video Upload.png" />
+                                </label>
+                                <img id="selected_video" style="display:none;" class="responsive" width="50" src="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/Content/img/selected_1.png" />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                @Html.TextBoxFor(m => Model.addFile, new { type = "file", title = "Choose an file", @class = "cover_pic", onchange = "readAddFile(this)" })
+                                <label for="addFile" class="custom-file-upload" id="lbl_addFile">
+                                    <img id="uploadAddFile_1" class="responsive form_text" title="Document(s) of maximum 2 MB to be uploaded. More than 1 file to be uploaded in form of zip folder" width="60" src="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/Content/img/File Upload.png" />
+                                </label>
+                                <img id="selected_addfile" style="display:none;" class="responsive" width="50" src="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/Content/img/selected_1.png" />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                @Html.TextBoxFor(m => Model.financeFile, new { type = "file", title = "Choose an file", @class = "cover_pic", onchange = "financeAddFile(this)" })
+                                <label for="financeFile" class="custom-file-upload" id="lbl_financeFileName">
+                                    <img id="financeFileName_1" class="responsive form_text" title="Document(s) of maximum 2 MB to be uploaded." width=90" src="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/Content/img/Finance File Upload.png" />
+                                </label>
+                                <img id="financeFileName" style="display:none;" class="responsive" width="50" src="@RAFE.Utility.WebCommon.GetApplicationAbsolutePath()/Content/img/selected_1.png" />
+                                @Html.ValidationMessageFor(m => Model.financeFile, "", new { @class = "text-danger span-financeFileName" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3" style="margin-top:5px;">
+                                @if (!string.IsNullOrEmpty(Model.ImagePath1))
+                                {
+                                    <img id="imgemp_1" class="responsive" width="70" @if (string.IsNullOrEmpty(Model.ImagePath1)) { <text> src="" </text>  } else { <text> src='@(RAFE.Utility.WebCommon.GetApplicationAbsolutePath() + "upload/Image/" + @Model.ImagePath1)' </text> } />
+                                }
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-3" style="margin-top:5px;">
+
+                                @if (!string.IsNullOrEmpty(Model.videoFilePath))
+                                {
+                                    <a style="color:white;" href="@Url.Action("downloadvideo", "common", new { id = Model.NominationID, fileType = "video" })" title="Download Video" target="_blank">
+                                        @Model.videoFileName
+                                    </a>
+                                }
+                                &nbsp;
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3" style="margin-top:5px;">
+                                @if (!string.IsNullOrEmpty(Model.addFilePath))
+                                {
+                                    <a style="color:white;" href="@Url.Action("downloadvideo", "common", new { id = Model.NominationID, fileType = "file" })" title="Download File" target="_blank">
+                                        @Model.addFileName
+                                    </a>
+                                }
+                                &nbsp;
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3" style="margin-top:5px;">
+                                @if (!string.IsNullOrEmpty(Model.financeFilePath))
+                                {
+                                    <a style="color:white;" href="@Url.Action("downloadvideo", "common", new { id = Model.NominationID, fileType = "financefile" })" title="Download File" target="_blank">
+                                        @Model.financeFilePath
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                        @Html.HiddenFor(m => Model.ImagePath1)
+                        @Html.HiddenFor(m => Model.videoFileName)
+                        @Html.HiddenFor(m => Model.videoFilePath)
+                        @Html.HiddenFor(m => Model.addFileName)
+                        @Html.HiddenFor(m => Model.addFilePath)
+                        @Html.HiddenFor(m => Model.financeFileName)
+                        @Html.HiddenFor(m => Model.financeFilePath)
+                        @Html.HiddenFor(m => Model.UserRole)
+                    </div>
+                </div>
+                <div id="divAwardSection">
+                    @Html.Partial("_AwardSection", Model)
+                </div>
+                <hr />
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divRefName_1">
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+                            <label class="form_text">Reference Name 1<span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.refName1, new { @class = "form-control ref-autocomplete" })
+                                @Html.ValidationMessageFor(m => Model.refName1, "", new { @class = "text-danger" ,  @style = "color:white;" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divRefName_2">
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+                            <label class="form_text">Reference Name 2</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.refName2, new { @class = "form-control ref-autocomplete" })
+                                @Html.ValidationMessageFor(m => Model.refName2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() != "HOD" || Model.isSubmitted == 0)
+                {
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_1">
+                            <div class="col-lg-2 col-md-3 col-sm-12">
+                                <label class="form_text">Submitted To<span style="color:red">*</span></label>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => Model.HOD, new SelectList(Model.HODList, "EmployeeID", "EmployeeName"), "--Select HOD--", new { id = "ddlHOD", @class = "form-control select2", style = "width: 100%;", required = "required" })
+                                    @Html.ValidationMessageFor(m => Model.HOD, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                //*Arpit
+                <div class="row" id="fhlist">
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_1">
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+                            <label class="form_text">Finance Approval<span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12">
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => Model.financeHeadName, new SelectList(Model.Approvers, "value", "text"), "--Select Finance Head--", new { id = "ddlFH", @class = "form-control select2", @style = "width: 100%", required = "required" })
+                            </div>
+                            <div id="error" style="display:none" class="text-bold text-red">
+                                Please Select Finance Head
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                //*
+                if (Model.isSubmitted == 1 && Model.isEditable)
+                {
+                    if (Request.QueryString["Flag"] != null)
+                    {
+                        if (Request.QueryString["Flag"].ToString() != "Edit")
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        <hr />
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:5px;" id="divEmp_1">
+                                <div class="col-lg-2 col-md-3 col-sm-12">
+                                    @if (RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "HR HEAD")
+                                    {
+                                        <label class="form_text">Rationale <span style="color:red">*</span></label>
+                                    }
+                                    else
+                                    {
+                                        <label class="form_text">Remarks <span style="color:red">*</span></label>
+                                    }
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12">
+                                    <div class="form-group">
+                                        @Html.TextAreaFor(m => Model.Remarks, new { @class = "form-control", @required = "required", rows = 2, maxlength = 500, onkeyup = "textCounter(this,spn_remarks, 500)" })
+                                        <span class="form_text" id="spn_remarks" style="color:white"> (Max 500 char ) </span>
+                                        @Html.ValidationMessageFor(m => Model.Remarks, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                //Changes here
+                if (Model.RemarkList != null)
+                {
+                    if (Model.RemarkList.Count > 0)
+                    {
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="col-lg-2 col-md-3 col-sm-12">
+                                    <label class="form_text">Remarks : </label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12" >
+                                <table class="table table-bordered table-responsive text-white" id="tblAwards">
+                                <thead>
+                                    <tr class="form_text">
+                                        <th width="30%">Approver</th>
+                                        <th>Remark</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.RemarkList)
+                                    {
+                                    <tr class="form_text">
+                                        <td width="30%">
+                                            @item.UpdatedBy
+                                        </td>
+                                        <td>
+                                            @item.Remarks
+                                        </td>
+                                        
+                                    </tr>
+                                    }
+                                </tbody>
+                                </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        }
+                    }
+
+
+                    <div class="row">
+                        <hr />
+                        <div class="col-lg-8 col-md-8 col-sm-12">
+                            <center>
+                                @if (Model.isSubmitted == 0 || Model.isSubmitted == -1)
+                                {
+                                    <span class="form_text" style="display:block;font-weight:bold;">Click on SAVE and then SUBMIT your nomination for next level of approval</span><br />
+                                    if (Model.isSubmitted == 0)
+                                    {
+                                        <button type="button" title="Submit option will be activated only post clicking on the Save option" id="btnSave" class="btn btn-success">Save</button>
+                                    }
+                                    <button type="button" title="Submit" id="btnSubmitt" class="btn btn-success" @if (Model.isSubmitted == 0 && Model.NominationID == 0) { <text> disabled</text> }>Submit</button>
+                                }
+                                else if (Model.isEditable)
+                                {
+                                    if (Model.UserRole == "HOD" || Model.UserRole == "FH")
+                                    {
+                                        <button type="button" title="Approved" id="btnApproved" class="btn btn-success approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.Approved)">Approve</button>
+                                        <button type="button" title="Need More Information" id="btnNMI" class="btn btn-info approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.NeedMoreInfo)">Need More Information</button>
+                                        <button type="button" title="Reject" id="btnReject" class="btn btn-danger approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.Rejected)">Reject</button>
+                                    }
+                                    else if (Model.UserRole == "BU HR" || Model.UserRole == "Com HR")
+                                    {
+                                        if (Request.QueryString["Flag"] != null)
+                                        {
+                                            if (Request.QueryString["Flag"].ToString() == "Edit")
+                                            {
+                                                <button type="button" title="Submit" id="btnCategoryChange" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.Modify)" class="btn btn-success btnCategoryChange" @if (Model.isSubmitted == 0 && Model.NominationID == 0) { <text> disabled</text> }>
+                                                    Modify
+                                                </button>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (Model.UserRole == "Com HR")
+                                            {
+                                                <button type="button" title="Need More Information" style="display:none" id="btnNMI" class="btn btn-info approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.CommHRReject)">Need More Information</button>
+                                                <button type="button" title="Shortlisted" style="display:none" id="Approved" class="btn btn-success approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.Shortlisted)">Shortlisted</button>
+                                                @Html.ActionLink("Back to Nomination List", "AwardCommittee", "Home", new { @class = "btn btn-primary", @id = "back" })
+                                            }
+                                            else
+                                            {
+                                                <button type="button" title="Approved" id="Approved" class="btn btn-info approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.Approved)">Shortlisted</button>
+                                                <button type="button" title="Reject" id="Reject" class="btn btn-success approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.Rejected)">Rejected</button>
+                                            }
+
+                                        }
+                                    }
+                                    if ((RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "HR HEAD"
+                                        || RAFE.Utility.WebCommon.GetUserRole(Request.Cookies["UserInfo"]).ToUpper() == "COMM HR") && Model.StatusID == 8)
+                                    {
+                                        <button type="button" title="Awarded" id="btnAwarded" class="btn btn-success approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.Awarded)">Awarded</button>
+                                        <button type="button" title="Non Awarded" id="btnNonAwarded" class="btn btn-danger approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.NonAwarded)">Non Awarded</button>
+                                    }
+                                }
+                            </center>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="error-page" style="width:100%; text-align:center">
+                        <div class="error-content" style="margin-left:0px">
+                            <h3 style="color:white"><i class="fa fa-ban text-red"></i>Nomination has been closed.</h3>
+                        </div>
+                    </div>
+                }
+            </form>
+        <input type="hidden" id="iscxo" value="@Request.QueryString["iscxo"]" />
+        <input type="hidden" id="URL" value="@Url.Action("getawarddata", "home")" />
+        <input type="hidden" id="UrlAlreadyNominated" value="@Url.Action("checkalreadynominated", "home")" />
+        <input type="hidden" value="@Model.financeHeadName" id="FH_name" />
+    </section>
+
+    <div id="partialModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-center modal-title">Employee Details</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section scripts
+{
+        @Styles.Render("~/Content/AutoCompletecss")
+        @Scripts.Render("~/bundles/AutoCompleteJS")
+
+        <script>
+            var globeApproval = 0;
+            $(document).ready(function () {
+                if ($('#FH_name').val() != "") {
+                    globeApproval = 1;
+                    $("#fhlist").attr("style", "display:inline");
+                } else {
+                    globeApproval = 0;
+                    $("#fhlist").attr("style", "display:none");
+                }
+                if ("@ViewBag.Error" == "Duplicate Nomination") {
+                    alert("Duplicate Nomination Exists");
+                }
+                if (parseInt('@Model.AwardCategory') > 1 && (parseInt('@Model.StatusID') == 5 || parseInt('@Model.StatusID') == 0) ) {
+                    $('#btnAddEmp').show();                    
+                }
+                
+            $('.user-autocomplete').autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("AutoCompleteList", "Common")',
+                        type: "POST",
+                        dataType: "json",
+                        data: { Prefix: request.term, MasterName: 'User' },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.EmployeeName, value: item.EmployeeID, id: item.EmployeeID }
+                            }))
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    })
+                },
+                minLength: 3
+            });
+
+            $('.ref-autocomplete').autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("AutoCompleteList", "Common")',
+                        type: "POST",
+                        dataType: "json",
+                        data: { Prefix: request.term, MasterName: 'Ref-User' },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.EmployeeName, value: item.EmployeeID, id: item.EmployeeID }
+                            }))
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    })
+                },
+                minLength: 3
+            });
+                //changes on 31/01/23
+                if (parseInt($('#isSubmitted').val()) == 1 && $('#UserRole').val() != "BU HR" && $('#UserRole').val() != "Com HR") {
+                //if (parseInt($('#isSubmitted').val()) == 1 && $('#UserRole').val() != "BU HR") {
+                $('.form-control').attr("disabled", "disabled");
+                $('input[type=radio]').attr("disabled", "disabled");
+                $('#btnSave').hide();
+                $('#btnSubmitt').hide();
+                $('input[type=file]').hide();
+                $('#EmployeeImage1').attr("disabled", "disabled");
+                $('#financeFile').attr("disabled", "disabled");
+                $('#videoFile').attr("disabled", "disabled");
+                $('#addFile').attr("disabled", "disabled");
+            }
+            if ('@Model.isEditable' == 'True') {
+                $('#Remarks').removeAttr('disabled')
+            }
+
+            $('#hyp_processNote').click(function () {
+                if ($('#AwardType').val() != '') {
+                    url = '@Url.Action("processNote", "Home")?id=' + $('#AwardType').val() + '&name=' + $("#AwardType option:selected").text();
+                    //console.log(url)
+                    window.open(url, '_blank');
+                }
+                else { swalFail('Stop', 'Kindly select a award type'); }
+            });
+
+            $('#btnSave').click(function () {
+                $('.loading').show();
+                $('#isSubmitted').val(0);
+                $('#StatusID').val(0);
+                var form = $("#form_nomination");
+                form.validate();
+
+                if (globeApproval == 1) {
+                if ($("#ddlFH").val() == 0 || $("#ddlFH").val() == " " || $("#ddlFH").val() == null){
+                        $("#error").attr("style", "display:inline");
+                    }
+                }
+               
+               
+
+                if ($('#NominationID').val() == 0 && ($('#EmployeeImage1')[0].value == '0' || $('#EmployeeImage1')[0].value == '')) {
+                    $('#lbl_EmployeeImage1').focus();
+                    $('.span-employeeimage').text('Select Photo');
+                    $('.loading').hide();
+                    return false;
+                }
+                else if ($('#NominationID').val() == 0 && ($('#financeFile')[0].value == '0' || $('#financeFile')[0].value == '') && globeApproval == 1) {
+                    $('#lbl_financeFileName').focus();
+                    $('.span-financeFileName').text('Select Upload finance HOD Approval file.');
+                    $('.loading').hide();
+                    return false;
+                }
+                else {
+                    if (form.valid()) {
+                        form.submit();
+                    }
+                    else {
+                        if ($('.SectionInput').length > 0) {
+                            $('.SectionInput').each(function () {
+                                if ($(this).val() == '') {
+                                    $(this).focus();
+                                    $('.loading').hide();
+                                    return false;
+                                }
+                            })
+                        }
+                        if ($('.UserInput').length > 0) {
+                            $('.UserInput').each(function () {
+                                if ($(this).val() == '') {
+                                    $(this).focus();
+                                    $('.loading').hide();
+                                    return false;
+                                }
+                            })
+                        }
+
+                        $('.loading').hide();
+                    }
+                }
+            });
+            $('#btnSubmitt').click(function () {
+                $('.loading').show();
+                $('#StatusID').val(0);  //nomination status
+                $('#isSubmitted').val(1);
+
+                var form = $("#form_nomination");
+                form.validate();
+                if (form.valid()) {
+                    form.submit();
+                }
+                else {
+                    $('.loading').hide();
+                }
+            });
+
+                $('#btnCategoryChange').click(function () {
+                    $('.loading').show();
+                    debugger;
+                    $('#StatusID').val(($(this).data("type")));
+                   
+
+                    var form = $("#form_nomination");
+                    form.validate();
+                    if (form.valid()) {
+                        form.submit();
+                    }
+                    else {
+                        $('.loading').hide();
+                    }
+                });
+            $('.approval-selection').click(function () {
+                $('.loading').show();
+                $('#StatusID').val(($(this).data("type")));
+                @*if ($('#StatusID').val() == parseInt('@Convert.ToInt32(RAFE.Models.NominationStage.NeedMoreInfo)') || $('#StatusID').val() == parseInt('@Convert.ToInt32(RAFE.Models.NominationStage.Rejected)')) {
+                    $("#Remarks").attr("required", "required");
+                }
+                else {
+                    $("#Remarks").removeAttr("required");
+                }*@
+                var form = $("#form_nomination");
+                form.validate();
+                if (form.valid()) {
+                    form.submit();
+                }
+                else {
+                    $('.loading').hide();
+                }
+            });
+
+            //Shraddha
+            $(".cboEmployee").on("change", function () {
+                var $cbo = $(this);
+                if ($cbo.val().toString().toUpperCase() == "OTHER") {
+                    $($cbo.attr("dataotherid")).removeClass("collapse").attr("required", "required");
+                }
+                else {
+                    var $txt = $($cbo.attr("dataotherid"));
+                    $txt.removeClass("input-validation-error");
+                    $txt.addClass("collapse").removeAttr("required");
+                    $txt.parents(".form-group").find(".otherEmpError[dataerrorfor='" + $txt.prop("id") + "']").html("");
+                }
+            });
+            if ('@Model.NominationID' != '0' && '@Model.isSubmitted' != '1') {
+                $(".cboEmployee").trigger("change");
+            }
+                ///////////////
+            });
+            $('#AwardType').change(function () {
+                ('@Model.UserRole' == "BU HR")
+                {
+                    if ($('#AwardType').val() > 0 || $('#AwardType').val() != "") {
+                        $('.loading').show();
+                    $.ajax({
+                        url: "@Url.Action("NumberOfNomination", "Home")",
+                        type: "Post",
+                        data: { awardtypeid: $('#AwardType').val(), nominationId: $('#hdNominationID').val() },
+                        success: function (nomination) {
+                            if (parseInt(nomination.nominationcount) > 3) {
+                                $("#AwardType").val('').trigger('change');
+                                alert("You can only select 3 Nominations in this Category");
+                            }
+                            if (parseInt(nomination.financeapproval) == 1) {
+                                globeApproval = 1;
+                                $("#fhlist").attr("style", "display:inline");
+                            } else {
+                                globeApproval = 0;
+                                $("#fhlist").attr("style", "display:none");
+                            }
+                        },
+                        error: function (AP) {
+
+                        }
+                    });
+                    }
+                    
+                }
+            });
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('=');
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
+            }
+
+            //changes by ARPIT
+
+            $('#profile1').click(function () {
+                //alert($('#txtOtheremployee1').val());
+                $.ajax({
+                    url: "@Url.Action("Profiler","Home")",
+                    type: "Post",
+                    data: { email: $('#txtOtheremployee1').val(), otheremail: $('#ddlemployee1').val() },
+                    success: function (response) {
+                         $("#partialModal").find(".modal-body").html(response);
+                         $("#partialModal").modal('show');
+
+                    },
+                    error: function () {
+
+                    }
+                });
+
+            });
+            $('#profile2').click(function () {
+                $.ajax({
+                    url: "@Url.Action("Profiler","Home")",
+                    type: "Post",
+                    data: { email: $('#txtOtheremployee2').val(), otheremail: $('#ddlemployee2').val() },
+                    success: function (response) {
+                         $("#partialModal").find(".modal-body").html(response);
+                         $("#partialModal").modal('show');
+
+                    },
+                    error: function () {
+
+                    }
+                });
+
+            });
+            $('#profile3').click(function () {
+                $.ajax({
+                    url: "@Url.Action("Profiler","Home")",
+                    type: "Post",
+                    data: { email: $('#txtOtheremployee3').val(), otheremail: $('#ddlemployee3').val() },
+                    success: function (response) {
+                         $("#partialModal").find(".modal-body").html(response);
+                         $("#partialModal").modal('show');
+
+                    },
+                    error: function () {
+
+                    }
+                });
+
+            });
+            $('#profile4').click(function () {
+                $.ajax({
+                    url: "@Url.Action("Profiler","Home")",
+                    type: "Post",
+                    data: { email: $('#txtOtheremployee4').val(), otheremail: $('#ddlemployee4').val() },
+                    success: function (response) {
+                         $("#partialModal").find(".modal-body").html(response);
+                         $("#partialModal").modal('show');
+
+                    },
+                    error: function () {
+
+                    }
+                });
+
+            });
+            $('#profile5').click(function () {
+                $.ajax({
+                    url: "@Url.Action("Profiler","Home")",
+                    type: "Post",
+                    data: { email: $('#txtOtheremployee5').val(), otheremail: $('#ddlemployee5').val() },
+                    success: function (response) {
+                         $("#partialModal").find(".modal-body").html(response);
+                         $("#partialModal").modal('show');
+
+                    },
+                    error: function () {
+
+                    }
+                });
+
+            });
+            $('#profile6').click(function () {
+                $.ajax({
+                    url: "@Url.Action("Profiler","Home")",
+                    type: "Post",
+                    data: { email: $('#txtOtheremployee6').val(), otheremail: $('#ddlemployee6').val() },
+                    success: function (response) {
+                         $("#partialModal").find(".modal-body").html(response);
+                         $("#partialModal").modal('show');
+
+                    },
+                    error: function (AP) {
+                        alert("Details Not Found")
+                    }
+                });
+
+            });
+            $('#profile7').click(function () {
+                $.ajax({
+                    url: "@Url.Action("Profiler","Home")",
+                    type: "Post",
+                    data: { email: $('#txtOtheremployee7').val(), otheremail: $('#ddlemployee7').val() },
+                    success: function (response) {
+                         $("#partialModal").find(".modal-body").html(response);
+                         $("#partialModal").modal('show');
+
+                    },
+                    error: function () {
+
+                    }
+                });
+
+            });
+            $('#profile8').click(function () {
+                $.ajax({
+                    url: "@Url.Action("Profiler","Home")",
+                    type: "Post",
+                    data: { email: $('#txtOtheremployee8').val(), otheremail: $('#ddlemployee8').val() },
+                    success: function (response) {
+                         $("#partialModal").find(".modal-body").html(response);
+                         $("#partialModal").modal('show');
+
+                    },
+                    error: function () {
+
+                    }
+                });
+
+            });
+            $('#profile9').click(function () {
+                $.ajax({
+                    url: "@Url.Action("Profiler","Home")",
+                    type: "Post",
+                    data: { email: $('#txtOtheremployee9').val(), otheremail: $('#ddlemployee9').val() },
+                    success: function (response) {
+                         $("#partialModal").find(".modal-body").html(response);
+                         $("#partialModal").modal('show');
+
+                    },
+                    error: function () {
+
+                    }
+                });
+
+            });
+            $('#profile10').click(function () {
+                $.ajax({
+                    url: "@Url.Action("Profiler","Home")",
+                    type: "Post",
+                    data: { email: $('#txtOtheremployee10').val(), otheremail: $('#ddlemployee10').val() },
+                    success: function (response) {
+                         $("#partialModal").find(".modal-body").html(response);
+                         $("#partialModal").modal('show');
+
+                    },
+                    error: function () {
+
+                    }
+                });
+
+            });
+            $('#combined_profiler').click(function () {
+                $.ajax({
+                    url: "@Url.Action("Profiler","Home")",
+                    type: "Post",
+                    data: { email: $('#txtOtheremployee10').val(), otheremail: $('#ddlemployee10').val() },
+                    success: function (response) {
+                         $("#partialModal").find(".modal-body").html(response);
+                         $("#partialModal").modal('show');
+
+                    },
+                    error: function () {
+
+                    }
+                });
+
+            });
+
+
+
+        </script>
+    }
+
+    <style>
+        button#btnSave, button#Approved, button#btnAddEmp, button#btnApproved, button#btnReject  {
+            background-color: #d8b751;
+            border-color: #d8b751;
+        }
+
+        button#btnSubmitt, button#btnRemoveEmp, button#btnNMI {
+            background-color: #9A792C;
+            border-color: #9A792C;
+        }
+        #back {
+            background-color: #d8b751;
+            border-color: #d8b751;
+        }
+        #spn_14, #spn_15, #spn_16, #spn_17, #spn_34, #spn_35, #spn_36, #spn_37, #spn_38, #spn_39, #spn_40, #spn_41, #spn_42, #spn_43, #spn_44, #spn_45, #spn_46, #spn_47, #spn_48, #spn_49, #spn_50, #spn_51, #spn_52, #spn_53, #spn_54, #spn_55, #spn_61, #spn_62, #spn_63, #spn_64, #spn_65, #spn_66, #spn_67, #spn_68, #spn_69, #spn_70, #spn_71, #spn_72, #spn_73, #spn_74, #spn_75, #spn_76, #spn_77, #spn_78, #spn_79, #spn_80, #spn_81, #spn_82, #spn_83 {
+            color: white;
+        }
+        .fa-info-circle{
+            color:white;
+        }
+    </style>
+}
+else
+{
+    @Html.Partial("_unAuthorized")
+}

@@ -1,0 +1,13 @@
+﻿*{
+    text-transform: uppercase
+}
+.container {
+    font-style: inherit;
+    color: #151657;
+}
+table{
+   
+}
+td{
+    padding: 0 20px 10px 20px;
+}

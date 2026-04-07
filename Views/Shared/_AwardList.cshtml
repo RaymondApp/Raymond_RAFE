@@ -1,0 +1,54 @@
+﻿
+@model RAFE.Models.NominationModel
+
+<table class="table table-bordered" id="tblAwards">
+    <thead>
+        <tr>
+            <th>Sr No</th>
+            <th>Nomination ID</th>
+            <th>Award Year</th>
+            <th>Award Category</th>
+            <th>Award Type</th>
+            <th>Nominee</th>
+            <th>Nominated By</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Nominationlist.Count > 0)
+        {
+            foreach (var item in Model.Nominationlist)
+            {
+                <tr>
+                    <td>
+                        @item.SrNo
+                    </td>
+                    <td>@item.NominationID</td>
+                    <td>@item.AwardYear</td>
+                    <td>@item.AwardCategory</td>
+                    <td>@item.AwardType</td>
+                    <td>@item.Nomenees</td>
+                    <td>@item.Nominator</td>
+                    <td>@Html.Raw(RAFE.Utility.WebCommon.GetSubmitStatus(item.isSubmitted, item.CurrentStatus))</td>
+                    <td>
+                        <a class="btn btn-primary" href="@Url.Action("NominationForm", "home", new { id = @item.NominationID })">
+                            @if (item.isSubmitted)
+                            {<text>View</text>}
+                        else
+                        {<text>Edit</text>}
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $('#tblAwards').DataTable({
+            stateSave: true
+        });
+    });
+</script>

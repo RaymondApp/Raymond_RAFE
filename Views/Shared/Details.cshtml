@@ -1,0 +1,134 @@
+﻿@model RAFE.Models.AwardModel
+  
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<style>
+    .formfield {
+        display: flex;
+        align-items: center;
+    }
+
+    button#btnSave, button#Approved, button#btnAddEmp, button#btnApproved, button#btnReject {
+        background-color: #d8b751;
+        border-color: #d8b751;
+    }
+
+    button#btnSubmitt, button#btnRemoveEmp, button#btnNMI {
+        background-color: #9A792C;
+        border-color: #9A792C;
+    }
+</style>
+<body>
+   
+        @using (Html.BeginForm("ACSubmit", "Home", FormMethod.Post))
+        {
+    <div>
+        <div class="formfield">
+            <label id="Remarks" for="Remarks">Remarks :</label>
+
+            <input id="StatusID"
+                   name="StatusID"
+                   type="hidden"
+                   value="@Convert.ToInt32(RAFE.Models.NominationStage.Shortlisted)" />
+            <input id="NominationID"
+                   name="NominationID"
+                   type="hidden"
+                   value="@Model.NominationID" />
+            <input type="hidden" id="UpdatedBy" value="" />
+
+            <textarea id="commentsd" name="commentsd" rows="3" cols="60" maxlength="2000" onkeyup="textCounter(this,spn_remarks, 2000)"></textarea>
+        </div>
+        <span class="formfield" id="spn_remarks"> (Max 2000 char ) </span>
+
+        <br />
+        <button type="submit" title="Shortlisted" name="Shortlisted" value="Shortlisted" id="Approved" class="btn btn-success approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.Shortlisted)">Shortlisted</button>
+        <button type="submit" title="Need More Information" name="NeedMoreInformation" value="Need More Information" id="btnNMI" class="btn btn-info approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.NeedMoreInfo)">Need More Information</button>
+        <button type="button" title="Shortlisted" id="Approved" class="btn btn-success approval-selection" data-type="@Convert.ToInt32(RAFE.Models.NominationStage.Rejected)">Rejected</button>
+
+        <br />
+
+        <div>
+            <h4>Attachments :</h4>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <h6>File :</h6>
+                </div>
+                <div class="col-sm-8">
+                    @if (Model.addFileName != "")
+                    {
+
+                        <a style="color:black;" href="@Url.Action("downloadvideo", "common", new { id = Model.NominationID, fileType = "video" })" title="Download File" target="_blank">
+                            @Model.addFileName
+                        </a>
+
+                    }
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <h6>Video File :</h6>
+                </div>
+                <div class="col-sm-8">
+                    @if (Model.videoFileName != "")
+                    {
+
+                        <a style="color:black;" href="@Url.Action("downloadvideo", "common", new { id = Model.NominationID, fileType = "video" })" title="Download File" target="_blank">
+                            @Model.videoFileName
+                        </a>
+
+                    }
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <h6>Finance File :</h6>
+                </div>
+                <div class="col-sm-8">
+                    @if (Model.financeFileName != "")
+                    {
+
+                        <a style="color:black;" href="@Url.Action("downloadvideo", "common", new { id = Model.NominationID, fileType = "video" })" title="Download File" target="_blank">
+                            @Model.financeFileName
+                        </a>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+        }
+
+</body>
+<script>
+    $('.approval-selection').click(function () {
+        //$('.loading').show();
+        $('#StatusID').val(($(this).data("type")));
+        @*if ($('#StatusID').val() == parseInt('@Convert.ToInt32(RAFE.Models.NominationStage.NeedMoreInfo)') || $('#StatusID').val() == parseInt('@Convert.ToInt32(RAFE.Models.NominationStage.Rejected)')) {
+            $("#Remarks").attr("required", "required");
+        }
+        else {
+            $("#Remarks").removeAttr("required");
+        }*@
+        var form = $("#form_nomination");
+        form.validate();
+        if (form.valid()) {
+            form.submit();
+        }
+        else {
+            $('.loading').hide();
+        }
+    });
+</script>
+
+</html>
+
+

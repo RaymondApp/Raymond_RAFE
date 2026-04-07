@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "RAFE";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<style>
+    .justify-row {
+        margin: 15px;
+    }
+</style>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="alert-status" style="display:none">
+            @if (TempData["status"] != null)
+            {
+                if (TempData["status"].ToString() == "1")
+                {
+                    <label class="lbl-success">@TempData["message"].ToString() </label>
+                }
+                else
+                {
+                    <label class="lbl-error">@TempData["message"].ToString() </label>
+                }
+            }
+        </div>
+        <div class="col-md-12">
+            <div class="box box-danger" style="background-color:transparent;">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <section>
+                        <div class="container">
+                            <div class="row justify-content-center text-center my-3">
+                                <div class="col-12">
+                                    <h1>D&#233;j&#224; vu</h1>
+                                </div>
+                            </div>
+                            <div class="justify-row justify-content-center text-center">
+                                <div class="col-md-4 col-sm-4 mb-3">
+                                    <a href="~/Upload/Dejavu/Deja-vu-Shridhar-Chavan.jpg" data-lightbox="gallery" data-title="Shridhar Chavan" title="Click here to Full Screen View">
+                                        <img src="~/Upload/Dejavu/Deja-vu-Shridhar-Chavan.jpg" class="img-fluid img-thumbnail" alt="Shridhar Chavan">
+                                    </a>
+                                </div>
+                                <div class="col-md-4 col-sm-4 mb-3">
+                                    <a href="~/Upload/Dejavu/Deja-vu_Dhrubajyoti-Goswami.jpg" data-lightbox="gallery" data-title="Dhrubajyoti Goswami" title="Click here to Full Screen View">
+                                        <img src="~/Upload/Dejavu/Deja-vu_Dhrubajyoti-Goswami.jpg" class="img-fluid img-thumbnail" alt="Dhrubajyoti Goswami">
+                                    </a>
+                                </div>
+                                <div class="col-md-4 col-sm-4 mb-3">
+                                    <a href="~/Upload/Dejavu/Deja-vu_Moumita-Dey.jpg" data-lightbox="gallery" data-title="Moumita Dey" title="Click here to Full Screen View">
+                                        <img src="~/Upload/Dejavu/Deja-vu_Moumita-Dey.jpg" class="img-fluid img-thumbnail" alt="Moumita Dey" >
+                                    </a>
+                                </div>
+                                <div class="col-md-4 col-sm-4 mb-3">
+                                    <a href="~/Upload/Dejavu/Deja-vu_Karanvir-Singh.jpg" data-lightbox="gallery" data-title="Karanvir Singh" title="Click here to Full Screen View">
+                                        <img src="~/Upload/Dejavu/Deja-vu_Karanvir-Singh.jpg" class="img-fluid img-thumbnail" alt="Karanvir Singh">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section scripts {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/css/lightbox.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/js/lightbox.min.js"></script>
+    <script>
+        lightbox.option({
+            'albumLabel': "picture %1 of %2",
+            'fadeDuration': 300,
+            'resizeDuration': 150,
+            'wrapAround': true
+        })
+    </script>
+}
